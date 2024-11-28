@@ -14,6 +14,7 @@ from guise.util import (
     all_links_of_html,
 )
 from guise.nlp import (
+    TFIDFCalculator,
     html_tokens,
     term_filtered_html2text,
     stem_based_word_mapping,
@@ -25,4 +26,6 @@ from guise.word_scoring import (
     sentiment_score,
     mk_word_score_base_color_func,
 )
-from guise.tools import google_results_toks, word_cloud
+from guise.tools import google_results_toks
+
+from guise.word_clouds import word_cloud, word_cloud_store
