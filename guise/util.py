@@ -3,9 +3,33 @@
 import os
 import re
 from functools import partial, lru_cache
-
+from typing import Mapping, Any, Iterable, Union, Callable, Sequence, Dict
 from urllib.parse import quote as url_quote
+from collections import Counter
+from numbers import Number
+
 import requests
+
+
+Text = str
+Word = str
+Words = Sequence[Word]
+
+WordIterable = Iterable[Word]
+WordCount = Mapping[Word, int]
+WordStats = Mapping[Word, Any]
+WordMap = Mapping[Word, Word]
+StemmerSpec = Union[Callable, str, None]
+
+TextToWords = Union[str, Callable[[Text], Words]]
+Weight = Number
+WordWeights = Dict[Word, Weight]
+WordsToWeights = Callable[[Words], Mapping[Text, Weight]]
+WordsSpec = Union[Words, WordWeights]
+
+
+DFLT_STR_TO_WORD: TextToWords = re.compile(r'\w+').findall
+DFLT_WORDS_TO_WEIGHTS: WordsToWeights = Counter
 
 
 def get_pyversion():
@@ -54,7 +78,6 @@ def url_to_html(url, encoding='latin-1', **kwargs):
         print(f'ERROR with {url}: {e}')
 
 
-
 def without_nones(d):
     return {k: v for k, v in d.items() if v is not None}
 
@@ -97,6 +120,7 @@ def google_search_html(
 
 def all_links_of_html(html, href_value_pattern='http.*'):
     from bs4 import BeautifulSoup
+
     href_value_pattern = re.compile(href_value_pattern)
     t = BeautifulSoup(html, features='lxml')
     return list(
@@ -153,4 +177,3 @@ def get_html_store(html_store=None):
         rootdir = html_store
         html_store = LocalTextStore(html_store, rootdir)
     return html_store
-

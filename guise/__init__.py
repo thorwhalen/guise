@@ -14,6 +14,7 @@ from guise.util import (
     all_links_of_html,
 )
 from guise.nlp import (
+    english_word_frequencies,
     TFIDFCalculator,
     html_tokens,
     term_filtered_html2text,
@@ -28,4 +29,9 @@ from guise.word_scoring import (
 )
 from guise.tools import google_results_toks
 
-from guise.word_clouds import word_cloud, word_cloud_store
+from guise.word_clouds import (
+    word_cloud,
+    word_cloud_store,
+    STOPWORDS,
+    vectorize_word_weighting_func,
+)
