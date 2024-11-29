@@ -1,6 +1,4 @@
-```python
 
-```
 
 # The `word_cloud_store` function
 
@@ -87,7 +85,7 @@ guise_clouds['word_clouds.py']
 
 
     
-![png](output_9_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_9_0.png)
     
 
 
@@ -100,7 +98,7 @@ guise_clouds['nlp.py']
 
 
     
-![png](output_10_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_10_0.png)
     
 
 
@@ -157,7 +155,7 @@ guise_doc_clouds['word_clouds.py']
 
 
     
-![png](output_15_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_15_0.png)
     
 
 
@@ -170,7 +168,7 @@ guise_doc_clouds['nlp.py']
 
 
     
-![png](output_16_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_16_0.png)
     
 
 
@@ -217,7 +215,7 @@ better_guise_doc_clouds['word_clouds.py']
 
 
     
-![png](output_20_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_20_0.png)
     
 
 
@@ -230,7 +228,7 @@ better_guise_doc_clouds['nlp.py']
 
 
     
-![png](output_21_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_21_0.png)
     
 
 
@@ -268,7 +266,7 @@ a_word_cloud_obj.to_image()
 
 
     
-![png](output_27_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_27_0.png)
     
 
 
@@ -286,7 +284,7 @@ word_cloud(list_of_words, wc_decoder=lambda x: x.to_image())
 
 
     
-![png](output_29_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_29_0.png)
     
 
 
@@ -305,7 +303,7 @@ word_cloud(list_of_words, wc_decoder=lambda x: x.to_image(), random_state=42)
 
 
     
-![png](output_31_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_31_0.png)
     
 
 
@@ -318,7 +316,7 @@ word_cloud(list_of_words, wc_decoder=lambda x: x.to_image(), random_state=42)
 
 
     
-![png](output_32_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_32_0.png)
     
 
 
@@ -340,7 +338,7 @@ word_cloud_image(list_of_words)
 
 
     
-![png](output_34_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_34_0.png)
     
 
 
@@ -358,7 +356,7 @@ word_cloud_image({'little': 0.2, 'BIG': 20})
 
 
     
-![png](output_37_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_37_0.png)
     
 
 
@@ -373,7 +371,7 @@ word_cloud({'little': 0.2, 'BIG': 20}, min_font_size=1, max_font_size=1000).to_i
 
 
     
-![png](output_38_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_38_0.png)
     
 
 
@@ -390,7 +388,7 @@ word_cloud_image('That that is is that that is not is not is that it it is.')
 
 
     
-![png](output_41_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_41_0.png)
     
 
 
@@ -406,7 +404,7 @@ word_cloud_image(quote_1)
 
 
     
-![png](output_43_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_43_0.png)
     
 
 
@@ -425,7 +423,7 @@ word_cloud_image(quote_1, str_to_words=lambda x: x.split(' '))
 
 
     
-![png](output_45_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_45_0.png)
     
 
 
@@ -441,7 +439,7 @@ word_cloud_image(quote_1, str_to_words='[\w-]+')
 
 
     
-![png](output_47_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_47_0.png)
     
 
 
@@ -462,7 +460,7 @@ word_cloud_image(james_had, words_to_weights=lambda x: 1 + (len(x) % 2))
 
 
     
-![png](output_49_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_49_0.png)
     
 
 
@@ -489,25 +487,11 @@ word_cloud_image(james_had, words_to_weights=words_to_weights)
 
 
     
-![png](output_51_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_51_0.png)
     
 
 
 
-```python
 
-```
 
-```python
-from hubcap import notebook_to_markdown
 
-t = notebook_to_markdown(
-    '/Users/thorwhalen/Dropbox/py/proj/t/guise/misc/guise demo.ipynb',
-    repo_root_url='https://github.com/thorwhalen/guise',
-    output_dir='/Users/thorwhalen/Dropbox/py/proj/t/guise/misc/markdowns'
-)
-```
-
-```python
-
-```
