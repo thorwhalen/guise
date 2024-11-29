@@ -85,7 +85,7 @@ guise_clouds['word_clouds.py']
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_9_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_9_0.png)
     
 
 
@@ -98,7 +98,7 @@ guise_clouds['nlp.py']
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_10_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_10_0.png)
     
 
 
@@ -155,7 +155,7 @@ guise_doc_clouds['word_clouds.py']
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_15_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_15_0.png)
     
 
 
@@ -168,7 +168,7 @@ guise_doc_clouds['nlp.py']
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_16_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_16_0.png)
     
 
 
@@ -215,7 +215,7 @@ better_guise_doc_clouds['word_clouds.py']
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_20_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_20_0.png)
     
 
 
@@ -228,7 +228,7 @@ better_guise_doc_clouds['nlp.py']
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_21_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_21_0.png)
     
 
 
@@ -266,7 +266,7 @@ a_word_cloud_obj.to_image()
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_27_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_27_0.png)
     
 
 
@@ -284,7 +284,7 @@ word_cloud(list_of_words, wc_decoder=lambda x: x.to_image())
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_29_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_29_0.png)
     
 
 
@@ -303,7 +303,7 @@ word_cloud(list_of_words, wc_decoder=lambda x: x.to_image(), random_state=42)
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_31_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_31_0.png)
     
 
 
@@ -316,7 +316,7 @@ word_cloud(list_of_words, wc_decoder=lambda x: x.to_image(), random_state=42)
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_32_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_32_0.png)
     
 
 
@@ -338,7 +338,7 @@ word_cloud_image(list_of_words)
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_34_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_34_0.png)
     
 
 
@@ -356,7 +356,7 @@ word_cloud_image({'little': 0.2, 'BIG': 20})
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_37_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_37_0.png)
     
 
 
@@ -371,7 +371,7 @@ word_cloud({'little': 0.2, 'BIG': 20}, min_font_size=1, max_font_size=1000).to_i
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_38_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_38_0.png)
     
 
 
@@ -388,7 +388,7 @@ word_cloud_image('That that is is that that is not is not is that it it is.')
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_41_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_41_0.png)
     
 
 
@@ -404,7 +404,7 @@ word_cloud_image(quote_1)
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_43_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_43_0.png)
     
 
 
@@ -423,7 +423,7 @@ word_cloud_image(quote_1, str_to_words=lambda x: x.split(' '))
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_45_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_45_0.png)
     
 
 
@@ -439,7 +439,7 @@ word_cloud_image(quote_1, str_to_words='[\w-]+')
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_47_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_47_0.png)
     
 
 
@@ -460,7 +460,7 @@ word_cloud_image(james_had, words_to_weights=lambda x: 1 + (len(x) % 2))
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_49_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_49_0.png)
     
 
 
@@ -487,7 +487,7 @@ word_cloud_image(james_had, words_to_weights=words_to_weights)
 
 
     
-![png](https://raw.githubusercontent.com/thorwhalen/master/misc/markdowns/images/output_51_0.png)
+![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_51_0.png)
     
 
 
