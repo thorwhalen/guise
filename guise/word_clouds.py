@@ -98,7 +98,10 @@ def words_to_word_weights_dict(
         return _self_recovering_word_weights_calculation(words_to_weights, words)
 
 
-@(Sig(WordCloud).inject_into_keyword_variadic)
+inject_word_cloud_kwargs = Sig(WordCloud).inject_into_keyword_variadic
+
+
+@inject_word_cloud_kwargs
 def word_cloud(
     words=None,
     save_filepath: str = None,
@@ -173,7 +176,7 @@ def word_cloud(
     return wc_decoder(wc)
 
 
-@(Sig(WordCloud).inject_into_keyword_variadic)
+@inject_word_cloud_kwargs
 def word_cloud_store(
     text_store: Mapping[Any, Text],
     wc_decoder: Callable = lambda wc: wc.to_image(),  # methodcaller('to_image'),
