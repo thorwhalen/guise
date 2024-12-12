@@ -41,7 +41,7 @@ def english_word_frequencies(max_num_of_words: int = 333331) -> Mapping[str, int
     import io
     from collections import Counter
 
-    word_freq_url = 'https://github.com/thorwhalen/content/raw/refs/heads/master/tables/csv/zip/english-word-frequency.zip'
+    word_freq_url = 'https://github.com/thorwhalen/content/raw/refs/heads/master/tables/csv/zip/english-word-frequency.csv.zip'
 
     en_word_freq = (
         pd.read_csv(io.BytesIO(ValueCodecs.zip_decompress(graze(word_freq_url))))
