@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>guise.util &mdash; guise 0.0.8 documentation</title>
+  <title>guise.util &mdash; guise 0.0.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../_static/documentation_options.js?v=f7cdbf68"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -86,7 +86,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">lru_cache</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">quote</span> <span class="k">as</span> <span class="n">url_quote</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Number</span>
@@ -106,12 +107,12 @@
 
 <span class="n">TextToWords</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Text</span><span class="p">],</span> <span class="n">Words</span><span class="p">]]</span>
 <span class="n">Weight</span> <span class="o">=</span> <span class="n">Number</span>
-<span class="n">WordWeights</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Word</span><span class="p">,</span> <span class="n">Weight</span><span class="p">]</span>
+<span class="n">WordWeights</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Word</span><span class="p">,</span> <span class="n">Weight</span><span class="p">]</span>
 <span class="n">WordsToWeights</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Words</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="n">Weight</span><span class="p">]]</span>
 <span class="n">WordsSpec</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Words</span><span class="p">,</span> <span class="n">WordWeights</span><span class="p">]</span>
 
 
-<span class="n">DFLT_STR_TO_WORD</span><span class="p">:</span> <span class="n">TextToWords</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span>
+<span class="n">DFLT_STR_TO_WORD</span><span class="p">:</span> <span class="n">TextToWords</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\w+&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span>
 <span class="n">DFLT_WORDS_TO_WEIGHTS</span><span class="p">:</span> <span class="n">WordsToWeights</span> <span class="o">=</span> <span class="n">Counter</span>
 
 
@@ -129,13 +130,13 @@
 <span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">importlib_resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
 
-<span class="n">proj_name</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">proj_name</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
 <span class="n">proj_files</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="n">proj_name</span><span class="p">)</span>
-<span class="n">data_files</span> <span class="o">=</span> <span class="n">proj_files</span> <span class="o">/</span> <span class="s1">&#39;data&#39;</span>
+<span class="n">data_files</span> <span class="o">=</span> <span class="n">proj_files</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span>
 
 <span class="n">STOPWORDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
-    <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="p">(</span><span class="n">data_files</span> <span class="o">/</span> <span class="s1">&#39;stopwords.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="p">(</span><span class="n">data_files</span> <span class="o">/</span> <span class="s2">&quot;stopwords.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
 <span class="p">)</span>
 
 
@@ -155,13 +156,13 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">url_to_html</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin-1&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">url_to_html</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;latin-1&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ERROR with </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR with </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">without_nones</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
@@ -169,7 +170,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">print_status_code_and_content</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ERROR: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ERROR: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="google_search_html">
@@ -194,7 +195,7 @@
 
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">google_search_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.google.com/search&#39;</span>
+    <span class="n">google_search_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.google.com/search&quot;</span>
 
     <span class="n">params</span> <span class="o">=</span> <span class="n">without_nones</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
@@ -207,28 +208,28 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">all_links_of_html</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">href_value_pattern</span><span class="o">=</span><span class="s1">&#39;http.*&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">all_links_of_html</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">href_value_pattern</span><span class="o">=</span><span class="s2">&quot;http.*&quot;</span><span class="p">):</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
     <span class="n">href_value_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">href_value_pattern</span><span class="p">)</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
         <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span>  <span class="c1"># this removes duplicates conserving order</span>
-            <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;href&#39;</span><span class="p">:</span> <span class="n">href_value_pattern</span><span class="p">},</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;href&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;href&quot;</span><span class="p">:</span> <span class="n">href_value_pattern</span><span class="p">},</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
 
-<span class="n">_google_url_prefix</span> <span class="o">=</span> <span class="s1">&#39;/url?q=&#39;</span>
-<span class="n">_google_url_junk</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&amp;sa=\w+&amp;ved=[\w-]+&amp;usg=[\w-]+$&#39;</span><span class="p">)</span>
+<span class="n">_google_url_prefix</span> <span class="o">=</span> <span class="s2">&quot;/url?q=&quot;</span>
+<span class="n">_google_url_junk</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&amp;sa=\w+&amp;ved=[\w-]+&amp;usg=[\w-]+$&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_google_url_post_proc</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">_google_url_prefix</span><span class="p">):</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_google_url_prefix</span><span class="p">)</span> <span class="p">:]</span>
     <span class="k">if</span> <span class="n">_google_url_junk</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">_google_url_junk</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">_google_url_junk</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">url</span>
 
 
@@ -237,22 +238,22 @@
         <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span>  <span class="c1"># to remove duplicates but keep order</span>
             <span class="nb">map</span><span class="p">(</span>
                 <span class="n">postproc</span><span class="p">,</span>
-                <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">url</span><span class="p">:</span> <span class="s1">&#39;google.com&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">url</span><span class="p">,</span> <span class="n">all_links_of_html</span><span class="p">(</span><span class="n">html</span><span class="p">)),</span>
+                <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">url</span><span class="p">:</span> <span class="s2">&quot;google.com&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">url</span><span class="p">,</span> <span class="n">all_links_of_html</span><span class="p">(</span><span class="n">html</span><span class="p">)),</span>
             <span class="p">)</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
 
-<span class="n">DFLT_HTML_STORE_DIR</span> <span class="o">=</span> <span class="s1">&#39;~/odat/html&#39;</span>
+<span class="n">DFLT_HTML_STORE_DIR</span> <span class="o">=</span> <span class="s2">&quot;~/odat/html&quot;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">make_dflt_html_store_dir</span><span class="p">(</span><span class="n">store_dir</span><span class="o">=</span><span class="n">DFLT_HTML_STORE_DIR</span><span class="p">):</span>
     <span class="n">store_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">store_dir</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">store_dir</span><span class="p">):</span>
         <span class="n">answer</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s1">&#39;Can I make the directory to store htmls in them (Y/n): </span><span class="si">{</span><span class="n">store_dir</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="sa">f</span><span class="s2">&quot;Can I make the directory to store htmls in them (Y/n): </span><span class="si">{</span><span class="n">store_dir</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">answer</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">}:</span>
+        <span class="k">if</span> <span class="n">answer</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">}:</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">store_dir</span><span class="p">)</span>
 
 
