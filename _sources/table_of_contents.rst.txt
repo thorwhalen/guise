@@ -1,0 +1,12 @@
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   module_docs/guise
+   module_docs/guise/examples
+   module_docs/guise/examples/energy_startups
+   module_docs/guise/nlp
+   module_docs/guise/tools
+   module_docs/guise/util
+   module_docs/guise/word_clouds
+   module_docs/guise/word_scoring

@@ -1,0 +1,4 @@
+guise.examples.energy_startups
+==============================
+.. automodule:: guise.examples.energy_startups
+   :members:

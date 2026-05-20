@@ -1,0 +1,520 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>guise.nlp &mdash; guise 0.0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            guise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise.html">guise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/examples.html">guise.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/examples/energy_startups.html">guise.examples.energy_startups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/nlp.html">guise.nlp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/tools.html">guise.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/util.html">guise.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/word_clouds.html">guise.word_clouds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/word_scoring.html">guise.word_scoring</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">guise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">guise.nlp</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for guise.nlp</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Natural language processing tools.</span>
+
+<span class="sd">Also check out the package idiom and lexis for more tools.</span>
+<span class="sd">(A few functions in this module use idiom and lexis, dynamically imported.)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">defaultdict</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">html2text</span><span class="w"> </span><span class="kn">import</span> <span class="n">html2text</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">guise.util</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">STOPWORDS</span><span class="p">,</span>
+    <span class="n">WordIterable</span><span class="p">,</span>
+    <span class="n">WordCount</span><span class="p">,</span>
+    <span class="n">WordMap</span><span class="p">,</span>
+    <span class="n">StemmerSpec</span><span class="p">,</span>
+    <span class="n">DFLT_STR_TO_WORD</span><span class="p">,</span>
+    <span class="n">DFLT_WORDS_TO_WEIGHTS</span><span class="p">,</span>
+    <span class="n">TextToWords</span><span class="p">,</span>
+    <span class="n">WordsToWeights</span><span class="p">,</span>
+    <span class="n">Weight</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># TF-IDF scoring</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<span class="nd">@lru_cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">english_word_frequencies</span><span class="p">(</span><span class="n">max_num_of_words</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">333331</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">graze</span><span class="w"> </span><span class="kn">import</span> <span class="n">graze</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValueCodecs</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+    <span class="n">word_freq_url</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/thorwhalen/content/raw/refs/heads/master/tables/csv/zip/english-word-frequency.csv.zip&#39;</span>
+
+    <span class="n">en_word_freq</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">ValueCodecs</span><span class="o">.</span><span class="n">zip_decompress</span><span class="p">(</span><span class="n">graze</span><span class="p">(</span><span class="n">word_freq_url</span><span class="p">))))</span>
+        <span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;word&#39;</span><span class="p">)[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">en_word_freq</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span> <span class="p">(</span><span class="mi">333331</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+
+<div class="viewcode-block" id="ensure_corpus_counts">
+<a class="viewcode-back" href="../../module_docs/guise/nlp.html#guise.nlp.ensure_corpus_counts">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_corpus_counts</span><span class="p">(</span>
+    <span class="n">word_count_src</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">str_to_words</span><span class="p">:</span> <span class="n">TextToWords</span> <span class="o">=</span> <span class="n">DFLT_STR_TO_WORD</span><span class="p">,</span>
+    <span class="n">words_to_weights</span><span class="p">:</span> <span class="n">WordsToWeights</span> <span class="o">=</span> <span class="n">DFLT_WORDS_TO_WEIGHTS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to get a word&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">word_count_src</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">word_count_src</span>
+        <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;english&#39;</span><span class="p">:</span>
+            <span class="n">word_count_src</span> <span class="o">=</span> <span class="n">english_word_frequencies</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">word_count_src</span> <span class="o">=</span> <span class="n">words_to_weights</span><span class="p">(</span><span class="n">str_to_words</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">word_count_src</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">list_of_words</span> <span class="o">=</span> <span class="n">word_count_src</span>
+        <span class="n">word_count_src</span> <span class="o">=</span> <span class="n">words_to_weights</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">word_count_src</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">word_count_src</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">word_count_src</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">word_count_src</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">word_count_src</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">word_count_src</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Weight</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="n">word_count_src</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s1">&#39;word_count_src should be a pd.Series or dict of word-&gt;weight pairs, &#39;</span>
+            <span class="s1">&#39;a list of words or a string: &quot;english&quot;, to get english word frequencies &#39;</span>
+            <span class="s2">&quot;(count), or the string that should be split into words and counted. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Got: </span><span class="si">{</span><span class="n">word_count_src</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<span class="c1"># TODO: Here were&#39;re not exactly doing TF-IDF, since we don&#39;t have the document frequency</span>
+<span class="c1">#      but we&#39;re doing a similar thing, where we&#39;re computing the IDF based on the</span>
+<span class="c1">#      corpus counts and then computing the TF-IDF based on the document counts.</span>
+<span class="c1">#      Generalize to be able to do normal TF-IDF as well, and verify soundness and</span>
+<span class="c1">#      rationale of the &quot;no document frequency&quot; approach.</span>
+<div class="viewcode-block" id="TFIDFCalculator">
+<a class="viewcode-back" href="../../module_docs/guise/nlp.html#guise.nlp.TFIDFCalculator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFIDFCalculator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A TF-IDF calculator that computes TF-IDF scores for documents based on a corpus.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    reference_corpus : pandas.Series</span>
+<span class="sd">        The corpus word counts to use as reference for IDF calculations.</span>
+<span class="sd">        The `corpus_counts` will be taken, or computed from reference_corpus.</span>
+<span class="sd">    idf_type : str, optional</span>
+<span class="sd">        The type of IDF calculation to use. Options are as follows (where df is the</span>
+<span class="sd">        &#39;document frequency&#39; of a word (a word count) and N is the total number of</span>
+<span class="sd">        documents in the corpus):</span>
+<span class="sd">        - &#39;standard&#39;: IDF = log(N / (df))</span>
+<span class="sd">        - &#39;smooth&#39;: IDF = log(1 + N / (df))</span>
+<span class="sd">        - &#39;probabilistic&#39;: IDF = log((N - df) / df)</span>
+<span class="sd">        - &#39;frequency&#39;: IDF = log((total_counts_corpus + 1) / (corpus_counts + 1))</span>
+<span class="sd">        Default is &#39;frequency&#39;.</span>
+<span class="sd">    stopwords : set or list, optional</span>
+<span class="sd">        A set or list of stop words to exclude from calculations.</span>
+<span class="sd">    custom_idf : dict or pandas.Series, optional</span>
+<span class="sd">        A mapping from words to custom IDF values.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    idf_ : pandas.Series</span>
+<span class="sd">        Inverse Document Frequency (IDF) values computed from the corpus.</span>
+<span class="sd">    default_idf_ : float</span>
+<span class="sd">        Default IDF value for words not found in the corpus.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import pandas as pd</span>
+<span class="sd">    &gt;&gt;&gt; # Sample corpus word counts</span>
+<span class="sd">    &gt;&gt;&gt; reference_corpus = pd.Series({</span>
+<span class="sd">    ...     &#39;word1&#39;: 300,</span>
+<span class="sd">    ...     &#39;word2&#39;: 200,</span>
+<span class="sd">    ...     &#39;word4&#39;: 500,</span>
+<span class="sd">    ...     &#39;trump&#39;: 100</span>
+<span class="sd">    ... })</span>
+<span class="sd">    &gt;&gt;&gt; stopwords = {&#39;the&#39;, &#39;and&#39;, &#39;is&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; custom_idf = {&#39;trump&#39;: 5.0}</span>
+<span class="sd">    &gt;&gt;&gt; tfidf_calculator = TFIDFCalculator(reference_corpus,</span>
+<span class="sd">    ...                                    idf_type=&#39;standard&#39;,</span>
+<span class="sd">    ...                                    stopwords=stopwords,</span>
+<span class="sd">    ...                                    custom_idf=custom_idf)</span>
+<span class="sd">    &gt;&gt;&gt; # Sample document word counts</span>
+<span class="sd">    &gt;&gt;&gt; doc_counts = pd.Series({</span>
+<span class="sd">    ...     &#39;word1&#39;: 3,</span>
+<span class="sd">    ...     &#39;word2&#39;: 2,</span>
+<span class="sd">    ...     &#39;trump&#39;: 4,</span>
+<span class="sd">    ...     &#39;harris&#39;: 2,</span>
+<span class="sd">    ...     &#39;the&#39;: 10</span>
+<span class="sd">    ... })</span>
+<span class="sd">    &gt;&gt;&gt; tfidf_scores = tfidf_calculator(doc_counts)</span>
+<span class="sd">    &gt;&gt;&gt; print(tfidf_scores)  # doctest: +ELLIPSIS</span>
+<span class="sd">    word1    -1.17...</span>
+<span class="sd">    word2    -0.71...</span>
+<span class="sd">    trump     1.81...</span>
+<span class="sd">    harris    0.90...</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">reference_corpus</span><span class="p">,</span> <span class="n">idf_type</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span> <span class="n">stopwords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">custom_idf</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="p">)</span> <span class="k">if</span> <span class="n">stopwords</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span> <span class="o">=</span> <span class="n">ensure_corpus_counts</span><span class="p">(</span><span class="n">reference_corpus</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># Remove stop words from corpus counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_counts_corpus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span><span class="p">)</span>  <span class="c1"># Number of unique terms in the corpus</span>
+
+        <span class="c1"># Compute IDF values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idf_type</span> <span class="o">=</span> <span class="n">idf_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idf_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_idf</span><span class="p">()</span>
+
+        <span class="n">default_idf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idf_</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+        <span class="c1"># Apply custom IDF values if provided</span>
+        <span class="k">if</span> <span class="n">custom_idf</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">custom_idf</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">)):</span>
+                <span class="n">custom_idf</span> <span class="o">=</span> <span class="p">{</span><span class="n">word</span><span class="p">:</span> <span class="n">default_idf</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">custom_idf</span><span class="p">}</span>
+            <span class="n">custom_idf_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">custom_idf</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idf_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">custom_idf_series</span><span class="p">)</span>
+
+        <span class="c1"># Compute default IDF for words not in corpus</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_idf_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idf_</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_idf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">idf_type</span> <span class="o">==</span> <span class="s1">&#39;standard&#39;</span><span class="p">:</span>
+            <span class="c1"># IDF = log(N / df)</span>
+            <span class="n">idf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">idf_type</span> <span class="o">==</span> <span class="s1">&#39;smooth&#39;</span><span class="p">:</span>
+            <span class="c1"># IDF = log(1 + N / df)</span>
+            <span class="n">idf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">idf_type</span> <span class="o">==</span> <span class="s1">&#39;probabilistic&#39;</span><span class="p">:</span>
+            <span class="c1"># IDF = log((N - df) / df)</span>
+            <span class="n">idf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span> <span class="o">+</span> <span class="mf">1e-10</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">idf_type</span> <span class="o">==</span> <span class="s1">&#39;frequency&#39;</span><span class="p">:</span>
+            <span class="c1"># IDF = log((total_counts_corpus + 1) / (corpus_counts + 1))</span>
+            <span class="n">idf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">total_counts_corpus</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corpus_counts</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown idf_type &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">idf_type</span><span class="si">}</span><span class="s2">&#39;. Choose from &#39;standard&#39;, &#39;smooth&#39;, &#39;probabilistic&#39;, &#39;frequency&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">idf</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc_counts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the TF-IDF scores for a document based on word counts.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        doc_counts : pandas.Series</span>
+<span class="sd">            Series with index as words and values as counts in the document.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tfidf : pandas.Series</span>
+<span class="sd">            TF-IDF scores for each word in the document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">doc_counts</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">doc_counts</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="n">doc_counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">doc_counts</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">doc_counts</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">words</span> <span class="o">=</span> <span class="n">doc_counts</span>
+                <span class="n">doc_counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">doc_counts</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">words</span> <span class="o">=</span> <span class="n">doc_counts</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">doc_counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+
+        <span class="n">doc_counts</span> <span class="o">=</span> <span class="n">doc_counts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># Remove stop words from document counts</span>
+        <span class="n">doc_counts</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stopwords</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">total_counts_doc</span> <span class="o">=</span> <span class="n">doc_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="c1"># Compute Term Frequency (TF)</span>
+        <span class="n">tf</span> <span class="o">=</span> <span class="n">doc_counts</span> <span class="o">/</span> <span class="n">total_counts_doc</span>
+        <span class="c1"># Get IDF values for words in the document</span>
+        <span class="n">idf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idf_</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">doc_counts</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="c1"># For words not in the corpus, assign default IDF value</span>
+        <span class="n">idf</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_idf_</span><span class="p">)</span>
+        <span class="c1"># Compute TF-IDF</span>
+        <span class="n">tfidf</span> <span class="o">=</span> <span class="n">tf</span> <span class="o">*</span> <span class="n">idf</span>
+        <span class="k">return</span> <span class="n">tfidf</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------------------</span>
+<span class="c1"># older tfidf scoring stuff</span>
+
+
+<span class="n">_cache</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="n">DFLT_INCLUDE_TERMS</span> <span class="o">=</span> <span class="s1">&#39;most_frequent_english&#39;</span>
+<span class="n">DFLT_EXCLUDE_TERMS</span> <span class="o">=</span> <span class="n">STOPWORDS</span>
+
+
+<div class="viewcode-block" id="get_include_terms">
+<a class="viewcode-back" href="../../module_docs/guise/nlp.html#guise.nlp.get_include_terms">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_include_terms</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">DFLT_INCLUDE_TERMS</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordIterable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;allowed_terms = &#39;most_frequent_english&#39; or &#39;wordnet_lemmas&#39;&quot;&quot;&quot;</span>
+
+    <span class="n">include</span> <span class="o">=</span> <span class="n">include</span> <span class="ow">or</span> <span class="s1">&#39;most_frequent_english&#39;</span>
+    <span class="k">if</span> <span class="n">include</span> <span class="o">==</span> <span class="s1">&#39;most_frequent_english&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;most_frequent_english&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_cache</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">idiom</span><span class="w"> </span><span class="kn">import</span> <span class="n">word_frequencies</span>  <span class="c1"># pip install idiom</span>
+
+            <span class="n">_cache</span><span class="p">[</span><span class="s1">&#39;most_frequent_english&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">word_frequencies</span><span class="p">()))</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="n">_cache</span><span class="p">[</span><span class="s1">&#39;most_frequent_english&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">include</span> <span class="o">==</span> <span class="s1">&#39;wordnet_lemmas&#39;</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">lexis</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lemmas</span>  <span class="c1"># pip install lexis</span>
+
+        <span class="k">if</span> <span class="s1">&#39;wordnet_lemmas&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_cache</span><span class="p">:</span>
+            <span class="n">_cache</span><span class="p">[</span><span class="s1">&#39;wordnet_lemmas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Lemmas</span><span class="p">())</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="n">_cache</span><span class="p">[</span><span class="s1">&#39;wordnet_lemmas&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">include</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">html_tokens</span><span class="p">(</span>
+    <span class="n">html</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="n">DFLT_INCLUDE_TERMS</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="n">STOPWORDS</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordIterable</span><span class="p">:</span>
+    <span class="n">toks</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">html2text</span><span class="p">(</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="n">get_include_terms</span><span class="p">(</span><span class="n">include</span><span class="p">)</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">include</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">exclude</span> <span class="ow">or</span> <span class="p">{})</span>
+        <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="n">include</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">,</span> <span class="n">toks</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">,</span> <span class="n">toks</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">toks</span>
+
+
+<div class="viewcode-block" id="term_filtered_html2text">
+<a class="viewcode-back" href="../../module_docs/guise/nlp.html#guise.nlp.term_filtered_html2text">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">term_filtered_html2text</span><span class="p">(</span>
+    <span class="n">html</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="n">DFLT_INCLUDE_TERMS</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="n">DFLT_EXCLUDE_TERMS</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39; ; &#39;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;allowed_terms = &#39;most_frequent_english&#39; or &#39;wordnet_lemmas&#39;&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">html_tokens</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="stem_based_word_mapping">
+<a class="viewcode-back" href="../../module_docs/guise/nlp.html#guise.nlp.stem_based_word_mapping">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">stem_based_word_mapping</span><span class="p">(</span>
+    <span class="n">words</span><span class="p">:</span> <span class="n">WordIterable</span><span class="p">,</span> <span class="n">stemmer</span><span class="p">:</span> <span class="n">StemmerSpec</span> <span class="o">=</span> <span class="s1">&#39;lancaster&#39;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordMap</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a dict of {word: replace_with_word, ...} mapping based on stemming.</span>
+
+<span class="sd">    stemming is great to reduce the number of words by replacing several</span>
+
+
+<span class="sd">    The words (or word counts) are stemmed, then for each stem, the word with the</span>
+<span class="sd">    highest count gets to represent the others.</span>
+
+<span class="sd">    &gt;&gt;&gt; _words = [&#39;happy&#39;, &#39;happier&#39;, &#39;happiest&#39;, &#39;happily&#39;, &#39;sad&#39;, &#39;sadly&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; word_count = Counter(_words)</span>
+<span class="sd">    &gt;&gt;&gt; stem_based_word_mapping(word_count)  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">    {&#39;happy&#39;: &#39;happy&#39;,</span>
+<span class="sd">     &#39;happier&#39;: &#39;happy&#39;,</span>
+<span class="sd">     &#39;happiest&#39;: &#39;happiest&#39;,</span>
+<span class="sd">     &#39;happily&#39;: &#39;happy&#39;,</span>
+<span class="sd">     &#39;sad&#39;: &#39;sad&#39;,</span>
+<span class="sd">     &#39;sadly&#39;: &#39;sad&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">stemmer</span><span class="p">):</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">nltk.stem</span><span class="w"> </span><span class="kn">import</span> <span class="n">PorterStemmer</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">nltk.stem</span><span class="w"> </span><span class="kn">import</span> <span class="n">LancasterStemmer</span>
+
+        <span class="k">if</span> <span class="n">stemmer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stemmer</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">word</span><span class="p">:</span> <span class="n">word</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stemmer</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">stemmer</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;porter&#39;</span><span class="p">):</span>
+                <span class="n">stemmer</span> <span class="o">=</span> <span class="n">PorterStemmer</span><span class="p">()</span><span class="o">.</span><span class="n">stem</span>
+            <span class="k">elif</span> <span class="n">stemmer</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;lancaster&#39;</span><span class="p">):</span>
+                <span class="n">stemmer</span> <span class="o">=</span> <span class="n">LancasterStemmer</span><span class="p">()</span><span class="o">.</span><span class="n">stem</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown stemmer value: </span><span class="si">{</span><span class="n">stemmer</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown stemmer type: </span><span class="si">{</span><span class="n">stemmer</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+        <span class="n">word_count</span> <span class="o">=</span> <span class="n">words</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">word_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+
+    <span class="n">word_of_stem</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">word_count</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">word_of_stem</span><span class="p">[</span><span class="n">stemmer</span><span class="p">(</span><span class="n">word</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">count</span><span class="p">,</span> <span class="n">word</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">sort_key</span><span class="p">(</span><span class="n">count_and_word</span><span class="p">):</span>
+        <span class="n">count</span><span class="p">,</span> <span class="n">word</span> <span class="o">=</span> <span class="n">count_and_word</span>
+        <span class="c1"># favor the highest count, if not, the shortest word, if not lexicographic</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">count</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">),</span> <span class="n">word</span>
+
+    <span class="n">word_of_stem</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">stem</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">count_and_words</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">sort_key</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">stem</span><span class="p">,</span> <span class="n">count_and_words</span> <span class="ow">in</span> <span class="n">word_of_stem</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="n">word</span><span class="p">:</span> <span class="n">word_of_stem</span><span class="p">[</span><span class="n">stemmer</span><span class="p">(</span><span class="n">word</span><span class="p">)]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_count</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="map_words_of_word_count">
+<a class="viewcode-back" href="../../module_docs/guise/nlp.html#guise.nlp.map_words_of_word_count">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">map_words_of_word_count</span><span class="p">(</span><span class="n">word_count</span><span class="p">:</span> <span class="n">WordCount</span><span class="p">,</span> <span class="n">word_map</span><span class="p">:</span> <span class="n">WordMap</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordCount</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recompute a word count based on a (complete) mapping of it&#39;s words (keys)</span>
+
+<span class="sd">    &gt;&gt;&gt; assert (dict(</span>
+<span class="sd">    ... map_words_of_word_count(</span>
+<span class="sd">    ...     {&#39;one&#39;: 1, &#39;ones&#39;: 2, &#39;1&#39;: 3, &#39;two&#39;: 4},</span>
+<span class="sd">    ...     {&#39;one&#39;: &#39;one&#39;, &#39;ones&#39;: &#39;one&#39;, &#39;1&#39;: &#39;one&#39;, &#39;two&#39;: &#39;two&#39;}))</span>
+<span class="sd">    ... == {&#39;one&#39;: 6, &#39;two&#39;: 4}</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">word_count</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">c</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">word_map</span><span class="p">[</span><span class="n">word</span><span class="p">]:</span> <span class="n">count</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">c</span></div>
+
+
+
+<div class="viewcode-block" id="stem_based_word_count">
+<a class="viewcode-back" href="../../module_docs/guise/nlp.html#guise.nlp.stem_based_word_count">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">stem_based_word_count</span><span class="p">(</span>
+    <span class="n">words</span><span class="p">:</span> <span class="n">WordIterable</span><span class="p">,</span> <span class="n">stemmer</span><span class="p">:</span> <span class="n">StemmerSpec</span> <span class="o">=</span> <span class="s1">&#39;lancaster&#39;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordCount</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;From an iterable of words, get a WordCount mapping which uses a stem-based map</span>
+
+<span class="sd">    &gt;&gt;&gt; words = [&#39;happy&#39;, &#39;happier&#39;, &#39;happiest&#39;, &#39;happily&#39;, &#39;sad&#39;, &#39;sadly&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; assert (dict(stem_based_word_count(words))</span>
+<span class="sd">    ... == {&#39;happy&#39;: 3, &#39;happiest&#39;: 1, &#39;sad&#39;: 2})</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">word_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+    <span class="n">word_map</span> <span class="o">=</span> <span class="n">stem_based_word_mapping</span><span class="p">(</span><span class="n">word_count</span><span class="p">,</span> <span class="n">stemmer</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">map_words_of_word_count</span><span class="p">(</span><span class="n">word_count</span><span class="p">,</span> <span class="n">word_map</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

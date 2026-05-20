@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>guise.nlp &mdash; guise 0.0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="guise.tools" href="tools.html" />
+    <link rel="prev" title="guise.examples.energy_startups" href="examples/energy_startups.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            guise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../guise.html">guise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">guise.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/energy_startups.html">guise.examples.energy_startups</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">guise.nlp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.DFLT_STR_TO_WORD"><code class="docutils literal notranslate"><span class="pre">DFLT_STR_TO_WORD()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.TFIDFCalculator"><code class="docutils literal notranslate"><span class="pre">TFIDFCalculator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#guise.nlp.TFIDFCalculator.idf_"><code class="docutils literal notranslate"><span class="pre">TFIDFCalculator.idf_</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#guise.nlp.TFIDFCalculator.default_idf_"><code class="docutils literal notranslate"><span class="pre">TFIDFCalculator.default_idf_</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.ensure_corpus_counts"><code class="docutils literal notranslate"><span class="pre">ensure_corpus_counts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.get_include_terms"><code class="docutils literal notranslate"><span class="pre">get_include_terms()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.map_words_of_word_count"><code class="docutils literal notranslate"><span class="pre">map_words_of_word_count()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.stem_based_word_count"><code class="docutils literal notranslate"><span class="pre">stem_based_word_count()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.stem_based_word_mapping"><code class="docutils literal notranslate"><span class="pre">stem_based_word_mapping()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#guise.nlp.term_filtered_html2text"><code class="docutils literal notranslate"><span class="pre">term_filtered_html2text()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">guise.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">guise.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="word_clouds.html">guise.word_clouds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="word_scoring.html">guise.word_scoring</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">guise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">guise.nlp</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/guise/nlp.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-guise.nlp">
+<span id="guise-nlp"></span><h1>guise.nlp<a class="headerlink" href="#module-guise.nlp" title="Link to this heading"></a></h1>
+<p>Natural language processing tools.</p>
+<p>Also check out the package idiom and lexis for more tools.
+(A few functions in this module use idiom and lexis, dynamically imported.)</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="guise.nlp.DFLT_STR_TO_WORD">
+<span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">DFLT_STR_TO_WORD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9223372036854775807</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#guise.nlp.DFLT_STR_TO_WORD" title="Link to this definition"></a></dt>
+<dd><p>Return a list of all non-overlapping matches of pattern in string.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="guise.nlp.TFIDFCalculator">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">TFIDFCalculator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_corpus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idf_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'frequency'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stopwords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_idf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/guise/nlp.html#TFIDFCalculator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guise.nlp.TFIDFCalculator" title="Link to this definition"></a></dt>
+<dd><p>A TF-IDF calculator that computes TF-IDF scores for documents based on a corpus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reference_corpus</strong> (<em>pandas.Series</em>) – The corpus word counts to use as reference for IDF calculations.
+The <cite>corpus_counts</cite> will be taken, or computed from reference_corpus.</p></li>
+<li><p><strong>idf_type</strong> (<em>str</em><em>, </em><em>optional</em>) – The type of IDF calculation to use. Options are as follows (where df is the
+‘document frequency’ of a word (a word count) and N is the total number of
+documents in the corpus):
+- ‘standard’: IDF = log(N / (df))
+- ‘smooth’: IDF = log(1 + N / (df))
+- ‘probabilistic’: IDF = log((N - df) / df)
+- ‘frequency’: IDF = log((total_counts_corpus + 1) / (corpus_counts + 1))
+Default is ‘frequency’.</p></li>
+<li><p><strong>stopwords</strong> (<em>set</em><em> or </em><em>list</em><em>, </em><em>optional</em>) – A set or list of stop words to exclude from calculations.</p></li>
+<li><p><strong>custom_idf</strong> (<em>dict</em><em> or </em><em>pandas.Series</em><em>, </em><em>optional</em>) – A mapping from words to custom IDF values.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="guise.nlp.TFIDFCalculator.idf_">
+<span class="sig-name descname"><span class="pre">idf_</span></span><a class="headerlink" href="#guise.nlp.TFIDFCalculator.idf_" title="Link to this definition"></a></dt>
+<dd><p>Inverse Document Frequency (IDF) values computed from the corpus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="guise.nlp.TFIDFCalculator.default_idf_">
+<span class="sig-name descname"><span class="pre">default_idf_</span></span><a class="headerlink" href="#guise.nlp.TFIDFCalculator.default_idf_" title="Link to this definition"></a></dt>
+<dd><p>Default IDF value for words not found in the corpus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sample corpus word counts</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_corpus</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;word1&#39;</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;word2&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;word4&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;trump&#39;</span><span class="p">:</span> <span class="mi">100</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stopwords</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">custom_idf</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;trump&#39;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tfidf_calculator</span> <span class="o">=</span> <span class="n">TFIDFCalculator</span><span class="p">(</span><span class="n">reference_corpus</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">idf_type</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">stopwords</span><span class="o">=</span><span class="n">stopwords</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">custom_idf</span><span class="o">=</span><span class="n">custom_idf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sample document word counts</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">doc_counts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;word1&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;word2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;trump&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;harris&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;the&#39;</span><span class="p">:</span> <span class="mi">10</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tfidf_scores</span> <span class="o">=</span> <span class="n">tfidf_calculator</span><span class="p">(</span><span class="n">doc_counts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tfidf_scores</span><span class="p">)</span>
+<span class="go">word1    -1.17...</span>
+<span class="go">word2    -0.71...</span>
+<span class="go">trump     1.81...</span>
+<span class="go">harris    0.90...</span>
+<span class="go">dtype: float64</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="guise.nlp.ensure_corpus_counts">
+<span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">ensure_corpus_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">word_count_src,</span> <span class="pre">*,</span> <span class="pre">str_to_words:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">~typing.Callable[[str],</span> <span class="pre">~typing.Sequence[str]]</span> <span class="pre">=</span> <span class="pre">&lt;built-in</span> <span class="pre">method</span> <span class="pre">findall</span> <span class="pre">of</span> <span class="pre">re.Pattern</span> <span class="pre">object&gt;,</span> <span class="pre">words_to_weights:</span> <span class="pre">~typing.Callable[[~typing.Sequence[str]],</span> <span class="pre">~typing.Mapping[str,</span> <span class="pre">~numbers.Number]]</span> <span class="pre">=</span> <span class="pre">&lt;class</span> <span class="pre">'collections.Counter'&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Series</span></span></span><a class="reference internal" href="../../_modules/guise/nlp.html#ensure_corpus_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guise.nlp.ensure_corpus_counts" title="Link to this definition"></a></dt>
+<dd><p>Helper function to get a word</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="guise.nlp.get_include_terms">
+<span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">get_include_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'most_frequent_english'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/guise/nlp.html#get_include_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guise.nlp.get_include_terms" title="Link to this definition"></a></dt>
+<dd><p>allowed_terms = ‘most_frequent_english’ or ‘wordnet_lemmas’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="guise.nlp.map_words_of_word_count">
+<span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">map_words_of_word_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">word_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">word_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/guise/nlp.html#map_words_of_word_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guise.nlp.map_words_of_word_count" title="Link to this definition"></a></dt>
+<dd><p>Recompute a word count based on a (complete) mapping of it’s words (keys)</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+<span class="gp">... </span><span class="n">map_words_of_word_count</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;one&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;ones&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;one&#39;</span><span class="p">:</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;ones&#39;</span><span class="p">:</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">:</span> <span class="s1">&#39;two&#39;</span><span class="p">}))</span>
+<span class="gp">... </span><span class="o">==</span> <span class="p">{</span><span class="s1">&#39;one&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="guise.nlp.stem_based_word_count">
+<span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">stem_based_word_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stemmer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lancaster'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/guise/nlp.html#stem_based_word_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guise.nlp.stem_based_word_count" title="Link to this definition"></a></dt>
+<dd><p>From an iterable of words, get a WordCount mapping which uses a stem-based map</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="s1">&#39;happier&#39;</span><span class="p">,</span> <span class="s1">&#39;happiest&#39;</span><span class="p">,</span> <span class="s1">&#39;happily&#39;</span><span class="p">,</span> <span class="s1">&#39;sad&#39;</span><span class="p">,</span> <span class="s1">&#39;sadly&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">stem_based_word_count</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+<span class="gp">... </span><span class="o">==</span> <span class="p">{</span><span class="s1">&#39;happy&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;happiest&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;sad&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="guise.nlp.stem_based_word_mapping">
+<span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">stem_based_word_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stemmer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lancaster'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/guise/nlp.html#stem_based_word_mapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guise.nlp.stem_based_word_mapping" title="Link to this definition"></a></dt>
+<dd><p>Returns a dict of {word: replace_with_word, …} mapping based on stemming.</p>
+<p>stemming is great to reduce the number of words by replacing several</p>
+<p>The words (or word counts) are stemmed, then for each stem, the word with the
+highest count gets to represent the others.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;happy&#39;</span><span class="p">,</span> <span class="s1">&#39;happier&#39;</span><span class="p">,</span> <span class="s1">&#39;happiest&#39;</span><span class="p">,</span> <span class="s1">&#39;happily&#39;</span><span class="p">,</span> <span class="s1">&#39;sad&#39;</span><span class="p">,</span> <span class="s1">&#39;sadly&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">word_count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">_words</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stem_based_word_mapping</span><span class="p">(</span><span class="n">word_count</span><span class="p">)</span>
+<span class="go">{&#39;happy&#39;: &#39;happy&#39;,</span>
+<span class="go"> &#39;happier&#39;: &#39;happy&#39;,</span>
+<span class="go"> &#39;happiest&#39;: &#39;happiest&#39;,</span>
+<span class="go"> &#39;happily&#39;: &#39;happy&#39;,</span>
+<span class="go"> &#39;sad&#39;: &#39;sad&#39;,</span>
+<span class="go"> &#39;sadly&#39;: &#39;sad&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="guise.nlp.term_filtered_html2text">
+<span class="sig-prename descclassname"><span class="pre">guise.nlp.</span></span><span class="sig-name descname"><span class="pre">term_filtered_html2text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'most_frequent_english'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset({'',</span> <span class="pre">'a',</span> <span class="pre">'about',</span> <span class="pre">'above',</span> <span class="pre">'after',</span> <span class="pre">'again',</span> <span class="pre">'against',</span> <span class="pre">'all',</span> <span class="pre">'also',</span> <span class="pre">'am',</span> <span class="pre">'an',</span> <span class="pre">'and',</span> <span class="pre">'any',</span> <span class="pre">'are',</span> <span class="pre">&quot;aren't&quot;,</span> <span class="pre">'as',</span> <span class="pre">'at',</span> <span class="pre">'be',</span> <span class="pre">'because',</span> <span class="pre">'been',</span> <span class="pre">'before',</span> <span class="pre">'being',</span> <span class="pre">'below',</span> <span class="pre">'between',</span> <span class="pre">'both',</span> <span class="pre">'but',</span> <span class="pre">'by',</span> <span class="pre">'can',</span> <span class="pre">&quot;can't&quot;,</span> <span class="pre">'cannot',</span> <span class="pre">'com',</span> <span class="pre">'could',</span> <span class="pre">&quot;couldn't&quot;,</span> <span class="pre">'did',</span> <span class="pre">&quot;didn't&quot;,</span> <span class="pre">'do',</span> <span class="pre">'does',</span> <span class="pre">&quot;doesn't&quot;,</span> <span class="pre">'doing',</span> <span class="pre">&quot;don't&quot;,</span> <span class="pre">'down',</span> <span class="pre">'during',</span> <span class="pre">'each',</span> <span class="pre">'else',</span> <span class="pre">'ever',</span> <span class="pre">'few',</span> <span class="pre">'for',</span> <span class="pre">'from',</span> <span class="pre">'further',</span> <span class="pre">'get',</span> <span class="pre">'had',</span> <span class="pre">&quot;hadn't&quot;,</span> <span class="pre">'has',</span> <span class="pre">&quot;hasn't&quot;,</span> <span class="pre">'have',</span> <span class="pre">&quot;haven't&quot;,</span> <span class="pre">'having',</span> <span class="pre">'he',</span> <span class="pre">&quot;he'd&quot;,</span> <span class="pre">&quot;he'll&quot;,</span> <span class="pre">&quot;he's&quot;,</span> <span class="pre">'hence',</span> <span class="pre">'her',</span> <span class="pre">'here',</span> <span class="pre">&quot;here's&quot;,</span> <span class="pre">'hers',</span> <span class="pre">'herself',</span> <span class="pre">'him',</span> <span class="pre">'himself',</span> <span class="pre">'his',</span> <span class="pre">'how',</span> <span class="pre">&quot;how's&quot;,</span> <span class="pre">'however',</span> <span class="pre">'http',</span> <span class="pre">'i',</span> <span class="pre">&quot;i'd&quot;,</span> <span class="pre">&quot;i'll&quot;,</span> <span class="pre">&quot;i'm&quot;,</span> <span class="pre">&quot;i've&quot;,</span> <span class="pre">'if',</span> <span class="pre">'in',</span> <span class="pre">'into',</span> <span class="pre">'is',</span> <span class="pre">&quot;isn't&quot;,</span> <span class="pre">'it',</span> <span class="pre">&quot;it's&quot;,</span> <span class="pre">'its',</span> <span class="pre">'itself',</span> <span class="pre">'just',</span> <span class="pre">'k',</span> <span class="pre">&quot;let's&quot;,</span> <span class="pre">'like',</span> <span class="pre">'me',</span> <span class="pre">'more',</span> <span class="pre">'most',</span> <span class="pre">&quot;mustn't&quot;,</span> <span class="pre">'my',</span> <span class="pre">'myself',</span> <span class="pre">'no',</span> <span class="pre">'nor',</span> <span class="pre">'not',</span> <span class="pre">'of',</span> <span class="pre">'off',</span> <span class="pre">'on',</span> <span class="pre">'once',</span> <span class="pre">'only',</span> <span class="pre">'or',</span> <span class="pre">'other',</span> <span class="pre">'otherwise',</span> <span class="pre">'ought',</span> <span class="pre">'our',</span> <span class="pre">'ours',</span> <span class="pre">'ourselves',</span> <span class="pre">'out',</span> <span class="pre">'over',</span> <span class="pre">'own',</span> <span class="pre">'r',</span> <span class="pre">'same',</span> <span class="pre">'shall',</span> <span class="pre">&quot;shan't&quot;,</span> <span class="pre">'she',</span> <span class="pre">&quot;she'd&quot;,</span> <span class="pre">&quot;she'll&quot;,</span> <span class="pre">&quot;she's&quot;,</span> <span class="pre">'should',</span> <span class="pre">&quot;shouldn't&quot;,</span> <span class="pre">'since',</span> <span class="pre">'so',</span> <span class="pre">'some',</span> <span class="pre">'such',</span> <span class="pre">'than',</span> <span class="pre">'that',</span> <span class="pre">&quot;that's&quot;,</span> <span class="pre">'the',</span> <span class="pre">'their',</span> <span class="pre">'theirs',</span> <span class="pre">'them',</span> <span class="pre">'themselves',</span> <span class="pre">'then',</span> <span class="pre">'there',</span> <span class="pre">&quot;there's&quot;,</span> <span class="pre">'therefore',</span> <span class="pre">'these',</span> <span class="pre">'they',</span> <span class="pre">&quot;they'd&quot;,</span> <span class="pre">&quot;they'll&quot;,</span> <span class="pre">&quot;they're&quot;,</span> <span class="pre">&quot;they've&quot;,</span> <span class="pre">'this',</span> <span class="pre">'those',</span> <span class="pre">'through',</span> <span class="pre">'to',</span> <span class="pre">'too',</span> <span class="pre">'under',</span> <span class="pre">'until',</span> <span class="pre">'up',</span> <span class="pre">'very',</span> <span class="pre">'was',</span> <span class="pre">&quot;wasn't&quot;,</span> <span class="pre">'we',</span> <span class="pre">&quot;we'd&quot;,</span> <span class="pre">&quot;we'll&quot;,</span> <span class="pre">&quot;we're&quot;,</span> <span class="pre">&quot;we've&quot;,</span> <span class="pre">'were',</span> <span class="pre">&quot;weren't&quot;,</span> <span class="pre">'what',</span> <span class="pre">&quot;what's&quot;,</span> <span class="pre">'when',</span> <span class="pre">&quot;when's&quot;,</span> <span class="pre">'where',</span> <span class="pre">&quot;where's&quot;,</span> <span class="pre">'which',</span> <span class="pre">'while',</span> <span class="pre">'who',</span> <span class="pre">&quot;who's&quot;,</span> <span class="pre">'whom',</span> <span class="pre">'why',</span> <span class="pre">&quot;why's&quot;,</span> <span class="pre">'with',</span> <span class="pre">&quot;won't&quot;,</span> <span class="pre">'would',</span> <span class="pre">&quot;wouldn't&quot;,</span> <span class="pre">'www',</span> <span class="pre">'you',</span> <span class="pre">&quot;you'd&quot;,</span> <span class="pre">&quot;you'll&quot;,</span> <span class="pre">&quot;you're&quot;,</span> <span class="pre">&quot;you've&quot;,</span> <span class="pre">'your',</span> <span class="pre">'yours',</span> <span class="pre">'yourself',</span> <span class="pre">'yourselves'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">;</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../../_modules/guise/nlp.html#term_filtered_html2text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#guise.nlp.term_filtered_html2text" title="Link to this definition"></a></dt>
+<dd><p>allowed_terms = ‘most_frequent_english’ or ‘wordnet_lemmas’</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples/energy_startups.html" class="btn btn-neutral float-left" title="guise.examples.energy_startups" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tools.html" class="btn btn-neutral float-right" title="guise.tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

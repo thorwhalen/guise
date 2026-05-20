@@ -1,0 +1,4 @@
+guise.word_scoring
+==================
+.. automodule:: guise.word_scoring
+   :members:

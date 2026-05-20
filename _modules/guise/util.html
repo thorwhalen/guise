@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>guise.util &mdash; guise 0.0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            guise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise.html">guise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/examples.html">guise.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/examples/energy_startups.html">guise.examples.energy_startups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/nlp.html">guise.nlp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/tools.html">guise.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/util.html">guise.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/word_clouds.html">guise.word_clouds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/word_scoring.html">guise.word_scoring</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">guise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">guise.util</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for guise.util</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utils&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">lru_cache</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">quote</span> <span class="k">as</span> <span class="n">url_quote</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Number</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+
+<span class="n">Text</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">Word</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">Words</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Word</span><span class="p">]</span>
+
+<span class="n">WordIterable</span> <span class="o">=</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Word</span><span class="p">]</span>
+<span class="n">WordCount</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Word</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+<span class="n">WordStats</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Word</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="n">WordMap</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Word</span><span class="p">,</span> <span class="n">Word</span><span class="p">]</span>
+<span class="n">StemmerSpec</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+
+<span class="n">TextToWords</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Text</span><span class="p">],</span> <span class="n">Words</span><span class="p">]]</span>
+<span class="n">Weight</span> <span class="o">=</span> <span class="n">Number</span>
+<span class="n">WordWeights</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Word</span><span class="p">,</span> <span class="n">Weight</span><span class="p">]</span>
+<span class="n">WordsToWeights</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Words</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="n">Weight</span><span class="p">]]</span>
+<span class="n">WordsSpec</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Words</span><span class="p">,</span> <span class="n">WordWeights</span><span class="p">]</span>
+
+
+<span class="n">DFLT_STR_TO_WORD</span><span class="p">:</span> <span class="n">TextToWords</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\w+&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span>
+<span class="n">DFLT_WORDS_TO_WEIGHTS</span><span class="p">:</span> <span class="n">WordsToWeights</span> <span class="o">=</span> <span class="n">Counter</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_pyversion</span><span class="p">():</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+    <span class="n">_maj</span><span class="p">,</span> <span class="n">_minor</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span>
+    <span class="k">return</span> <span class="n">_maj</span><span class="p">,</span> <span class="n">_minor</span>
+
+
+<span class="n">py_version</span> <span class="o">=</span> <span class="n">get_pyversion</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">py_version</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib_resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+
+<span class="n">proj_name</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+
+<span class="n">proj_files</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="n">proj_name</span><span class="p">)</span>
+<span class="n">data_files</span> <span class="o">=</span> <span class="n">proj_files</span> <span class="o">/</span> <span class="s1">&#39;data&#39;</span>
+
+<span class="n">STOPWORDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+    <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="p">(</span><span class="n">data_files</span> <span class="o">/</span> <span class="s1">&#39;stopwords.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="conditional_print">
+<a class="viewcode-back" href="../../module_docs/guise/util.html#guise.util.conditional_print">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">conditional_print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print on `condition`</span>
+
+<span class="sd">    Intended use:</span>
+
+<span class="sd">    &gt;&gt;&gt; verbose = True  # in the args of a function, and then in the function do:</span>
+<span class="sd">    &gt;&gt;&gt; _print = partial(conditional_print, condition=verbose)</span>
+<span class="sd">    &gt;&gt;&gt; # ... then use _print within function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">condition</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">url_to_html</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin-1&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ERROR with </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">without_nones</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">print_status_code_and_content</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ERROR: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="google_search_html">
+<a class="viewcode-back" href="../../module_docs/guise/util.html#guise.util.google_search_html">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">google_search_html</span><span class="p">(</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">on_error</span><span class="o">=</span><span class="n">print_status_code_and_content</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get&#39;s the html of google results (`start` through `start+num`) for query `q`.</span>
+
+<span class="sd">    :param q: query</span>
+<span class="sd">    :param num: the number of results you want (default is 10 -- docs say</span>
+<span class="sd">        it&#39;s also the max, but haven&#39;t seen that to be true)</span>
+<span class="sd">    :param start: Which result to start with (play with start and num to page through</span>
+<span class="sd">        results</span>
+<span class="sd">    :param lr: Language restriction (e.g. &quot;lang_en&quot; for English)</span>
+<span class="sd">    :param on_error: if given, func that is called on response if status code not 200</span>
+<span class="sd">    :param kwargs: Extra params:</span>
+
+<span class="sd">    See https://developers.google.com/custom-search/v1/reference/rest/v1/cse/list</span>
+<span class="sd">    for extra parameters and descriptions.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">google_search_url</span> <span class="o">=</span> <span class="s1">&#39;https://www.google.com/search&#39;</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="n">without_nones</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">google_search_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">on_error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">on_error</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">all_links_of_html</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">href_value_pattern</span><span class="o">=</span><span class="s1">&#39;http.*&#39;</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">bs4</span><span class="w"> </span><span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+    <span class="n">href_value_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">href_value_pattern</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span>  <span class="c1"># this removes duplicates conserving order</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;href&#39;</span><span class="p">:</span> <span class="n">href_value_pattern</span><span class="p">},</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="n">_google_url_prefix</span> <span class="o">=</span> <span class="s1">&#39;/url?q=&#39;</span>
+<span class="n">_google_url_junk</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&amp;sa=\w+&amp;ved=[\w-]+&amp;usg=[\w-]+$&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_google_url_post_proc</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">_google_url_prefix</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_google_url_prefix</span><span class="p">)</span> <span class="p">:]</span>
+    <span class="k">if</span> <span class="n">_google_url_junk</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">_google_url_junk</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">url</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">google_results_urls</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">postproc</span><span class="o">=</span><span class="n">_google_url_post_proc</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span>  <span class="c1"># to remove duplicates but keep order</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="n">postproc</span><span class="p">,</span>
+                <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">url</span><span class="p">:</span> <span class="s1">&#39;google.com&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">url</span><span class="p">,</span> <span class="n">all_links_of_html</span><span class="p">(</span><span class="n">html</span><span class="p">)),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+
+<span class="n">DFLT_HTML_STORE_DIR</span> <span class="o">=</span> <span class="s1">&#39;~/odat/html&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_dflt_html_store_dir</span><span class="p">(</span><span class="n">store_dir</span><span class="o">=</span><span class="n">DFLT_HTML_STORE_DIR</span><span class="p">):</span>
+    <span class="n">store_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">store_dir</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">store_dir</span><span class="p">):</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;Can I make the directory to store htmls in them (Y/n): </span><span class="si">{</span><span class="n">store_dir</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">answer</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">}:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">store_dir</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_html_store</span><span class="p">(</span><span class="n">html_store</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">html_store</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">html_store</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">DFLT_HTML_STORE_DIR</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">html_store</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">make_dflt_html_store_dir</span><span class="p">(</span><span class="n">html_store</span><span class="p">)</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">py2store</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalTextStore</span>
+
+        <span class="n">rootdir</span> <span class="o">=</span> <span class="n">html_store</span>
+        <span class="n">html_store</span> <span class="o">=</span> <span class="n">LocalTextStore</span><span class="p">(</span><span class="n">html_store</span><span class="p">,</span> <span class="n">rootdir</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">html_store</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

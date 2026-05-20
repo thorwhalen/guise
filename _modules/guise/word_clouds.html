@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>guise.word_clouds &mdash; guise 0.0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            guise
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise.html">guise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/examples.html">guise.examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/examples/energy_startups.html">guise.examples.energy_startups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/nlp.html">guise.nlp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/tools.html">guise.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/util.html">guise.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/word_clouds.html">guise.word_clouds</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/guise/word_scoring.html">guise.word_scoring</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">guise</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">guise.word_clouds</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for guise.word_clouds</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Word cloud generation with wordcloud.WordCloud.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">methodcaller</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">wordcloud</span><span class="w"> </span><span class="kn">import</span> <span class="n">WordCloud</span><span class="p">,</span> <span class="n">STOPWORDS</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">guise.util</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Text</span><span class="p">,</span>
+    <span class="n">Word</span><span class="p">,</span>
+    <span class="n">Words</span><span class="p">,</span>
+    <span class="n">TextToWords</span><span class="p">,</span>
+    <span class="n">Weight</span><span class="p">,</span>
+    <span class="n">WordWeights</span><span class="p">,</span>
+    <span class="n">WordsToWeights</span><span class="p">,</span>
+    <span class="n">WordsSpec</span><span class="p">,</span>
+    <span class="n">DFLT_STR_TO_WORD</span><span class="p">,</span>
+    <span class="n">DFLT_WORDS_TO_WEIGHTS</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="n">DFLT_WORD_CLOUD_KWARGS</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># empty means use wordcloud defaults</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_probably_a_word_weight_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">())),</span> <span class="n">Weight</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_single_word_weighting_func_to_words</span><span class="p">(</span>
+    <span class="n">word_weighting_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Word</span><span class="p">],</span> <span class="n">Weight</span><span class="p">],</span> <span class="n">words</span><span class="p">:</span> <span class="n">Words</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordWeights</span><span class="p">:</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">word_weighting_func</span><span class="p">,</span> <span class="n">words</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">vectorize_word_weighting_func</span><span class="p">(</span>
+    <span class="n">word_weighting_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Word</span><span class="p">],</span> <span class="n">Weight</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordsToWeights</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">_apply_single_word_weighting_func_to_words</span><span class="p">,</span> <span class="n">word_weighting_func</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_self_recovering_word_weights_calculation</span><span class="p">(</span>
+    <span class="n">words_to_weights</span><span class="p">:</span> <span class="n">WordsToWeights</span><span class="p">,</span> <span class="n">words</span><span class="p">:</span> <span class="n">Words</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordWeights</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply words_to_weights to words, but recover from most common mis-definitions.</span>
+
+<span class="sd">    words_to_weights is supposed to be a words-list to word-weights dict function,</span>
+<span class="sd">    but a user might specify a single-word-to-single-weight function, so we&#39;ll try</span>
+<span class="sd">    to detect that and apply it to each word in the list of words to get the</span>
+<span class="sd">    dict of word weights.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Normal case: words are a list of strings</span>
+        <span class="n">word_weights</span> <span class="o">=</span> <span class="n">words_to_weights</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">word_weights</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">):</span>
+            <span class="n">word_weights</span> <span class="o">=</span> <span class="n">word_weights</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="c1"># the words_to_weights could have workedm but if it didn&#39;t return a</span>
+        <span class="c1"># {word: weight, ...} dict, we&#39;re going to assume it&#39;s a single-word-to-single-weight</span>
+        <span class="c1"># and apply it to each word in the list</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_probably_a_word_weight_dict</span><span class="p">(</span><span class="n">word_weights</span><span class="p">):</span>
+            <span class="n">vectorized_word_weighting</span> <span class="o">=</span> <span class="n">vectorize_word_weighting_func</span><span class="p">(</span><span class="n">words_to_weights</span><span class="p">)</span>
+            <span class="n">word_weights</span> <span class="o">=</span> <span class="n">vectorized_word_weighting</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Your words_to_weights function failed when applied to your words list. </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Most common mistake is specifying a words_to_weights function as a &quot;</span>
+            <span class="s2">&quot;single-word-to-single-weight function. </span><span class="se">\n</span><span class="s2">If that&#39;s what you have, please &quot;</span>
+            <span class="s2">&quot;specify `words_to_weights=guise.vectorize_word_weighting_func(your_func)` &quot;</span>
+            <span class="s2">&quot;instead. </span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Your words_to_weights was </span><span class="si">{</span><span class="n">words_to_weights</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">words</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="si">=}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Error was </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">word_weights</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">words_to_word_weights_dict</span><span class="p">(</span>
+    <span class="n">words</span><span class="p">:</span> <span class="n">WordsSpec</span><span class="p">,</span> <span class="n">str_to_words</span><span class="p">:</span> <span class="n">TextToWords</span><span class="p">,</span> <span class="n">words_to_weights</span><span class="p">:</span> <span class="n">WordsToWeights</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WordWeights</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">str_to_words</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># Use the provided callable to tokenize the input string into words</span>
+        <span class="n">regular_expression</span> <span class="o">=</span> <span class="n">str_to_words</span>
+        <span class="n">str_to_words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">regular_expression</span><span class="p">)</span><span class="o">.</span><span class="n">findall</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># Use the provided callable to tokenize the input string into words</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">words</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">str_to_words</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">_probably_a_word_weight_dict</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+        <span class="c1"># We already have a {word: frequency, ...} mapping</span>
+        <span class="k">return</span> <span class="n">words</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Use the provided callable to generate word weights</span>
+        <span class="k">return</span> <span class="n">_self_recovering_word_weights_calculation</span><span class="p">(</span><span class="n">words_to_weights</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
+
+
+<span class="n">inject_word_cloud_kwargs</span> <span class="o">=</span> <span class="n">Sig</span><span class="p">(</span><span class="n">WordCloud</span><span class="p">)</span><span class="o">.</span><span class="n">inject_into_keyword_variadic</span>
+
+
+<div class="viewcode-block" id="word_cloud">
+<a class="viewcode-back" href="../../module_docs/guise/word_clouds.html#guise.word_clouds.word_cloud">[docs]</a>
+<span class="nd">@inject_word_cloud_kwargs</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">word_cloud</span><span class="p">(</span>
+    <span class="n">words</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">save_filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">str_to_words</span><span class="p">:</span> <span class="n">TextToWords</span> <span class="o">=</span> <span class="n">DFLT_STR_TO_WORD</span><span class="p">,</span>
+    <span class="n">words_to_weights</span><span class="p">:</span> <span class="n">WordsToWeights</span> <span class="o">=</span> <span class="n">DFLT_WORDS_TO_WEIGHTS</span><span class="p">,</span>
+    <span class="n">wc_decoder</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+    <span class="n">stopwords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">word_cloud_kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a word cloud from a list of words.</span>
+
+<span class="sd">    The words can be a list of strings or a mapping from words to weights.</span>
+
+<span class="sd">    The word cloud is created by applying the word_cloud function to the words.</span>
+
+<span class="sd">    The word_cloud_kwargs are passed to the WordCloud constructor.</span>
+
+<span class="sd">    Args:</span>
+
+<span class="sd">    words: A list of words or a mapping from words to weights. If None, a partial</span>
+<span class="sd">    function is returned with the desired parameters.</span>
+
+<span class="sd">    save_filepath: The path to save the word cloud image to. If None, the word cloud</span>
+<span class="sd">    image is not saved.</span>
+
+<span class="sd">    str_to_words: A function that takes a text string and returns a list of words. By</span>
+<span class="sd">    default, it uses the default regular expression to find words.</span>
+
+<span class="sd">    words_to_weights: A function that takes a list of words and returns a mapping from</span>
+<span class="sd">    words to weights. By default, it uses the Counter function to count the frequency of</span>
+<span class="sd">    each word.</span>
+
+<span class="sd">    wc_decoder: A function that takes a word cloud and returns the desired output. By</span>
+<span class="sd">    default, it returns the image of the word cloud.</span>
+
+<span class="sd">    stopwords: A set of words to ignore when creating the word cloud. By default, it uses</span>
+<span class="sd">    the default set of stopwords from the wordcloud package.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">words</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># just return a partial function with the desired parameters</span>
+        <span class="k">return</span> <span class="n">partial</span><span class="p">(</span>
+            <span class="n">word_cloud</span><span class="p">,</span>
+            <span class="n">save_filepath</span><span class="o">=</span><span class="n">save_filepath</span><span class="p">,</span>
+            <span class="n">str_to_words</span><span class="o">=</span><span class="n">str_to_words</span><span class="p">,</span>
+            <span class="n">words_to_weights</span><span class="o">=</span><span class="n">words_to_weights</span><span class="p">,</span>
+            <span class="n">wc_decoder</span><span class="o">=</span><span class="n">wc_decoder</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">word_cloud_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">word_weights</span> <span class="o">=</span> <span class="n">words_to_word_weights_dict</span><span class="p">(</span><span class="n">words</span><span class="p">,</span> <span class="n">str_to_words</span><span class="p">,</span> <span class="n">words_to_weights</span><span class="p">)</span>
+
+    <span class="n">word_cloud_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">DFLT_WORD_CLOUD_KWARGS</span><span class="p">,</span> <span class="o">**</span><span class="n">word_cloud_kwargs</span><span class="p">,</span> <span class="n">stopwords</span><span class="o">=</span><span class="n">stopwords</span>
+    <span class="p">)</span>
+    <span class="n">wc</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span><span class="o">**</span><span class="n">word_cloud_kwargs</span><span class="p">)</span>
+
+    <span class="c1"># stopwords doesn&#39;t seem to work when using fit_words, so we have to do the work</span>
+    <span class="c1"># ourselves:</span>
+    <span class="k">if</span> <span class="n">stopwords</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">word_weights</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">word</span><span class="p">:</span> <span class="n">weight</span>
+            <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">word_weights</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span>
+        <span class="p">}</span>
+    <span class="n">wc</span><span class="o">.</span><span class="n">fit_words</span><span class="p">(</span><span class="n">word_weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">save_filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wc</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">save_filepath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wc_decoder</span><span class="p">(</span><span class="n">wc</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="word_cloud_store">
+<a class="viewcode-back" href="../../module_docs/guise/word_clouds.html#guise.word_clouds.word_cloud_store">[docs]</a>
+<span class="nd">@inject_word_cloud_kwargs</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">word_cloud_store</span><span class="p">(</span>
+    <span class="n">text_store</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Text</span><span class="p">],</span>
+    <span class="n">wc_decoder</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">wc</span><span class="p">:</span> <span class="n">wc</span><span class="o">.</span><span class="n">to_image</span><span class="p">(),</span>  <span class="c1"># methodcaller(&#39;to_image&#39;),</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">str_to_words</span><span class="p">:</span> <span class="n">TextToWords</span> <span class="o">=</span> <span class="n">DFLT_STR_TO_WORD</span><span class="p">,</span>
+    <span class="n">words_to_weights</span><span class="p">:</span> <span class="n">WordsToWeights</span> <span class="o">=</span> <span class="n">DFLT_WORDS_TO_WEIGHTS</span><span class="p">,</span>
+    <span class="n">stopwords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">word_cloud_kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">WordCloud</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a word cloud store from a text store.</span>
+
+<span class="sd">    The text store is a mapping from keys to text strings. The word cloud store is a</span>
+<span class="sd">    mapping from keys to word clouds.</span>
+
+<span class="sd">    The word cloud store is created by applying the word_cloud function to each text</span>
+<span class="sd">    in the text store.</span>
+
+<span class="sd">    The word_cloud_kwargs are passed to the word_cloud function.</span>
+
+<span class="sd">    The wc_decoder is a function that takes a word cloud and returns the desired</span>
+<span class="sd">    output. By default, it returns the image of the word cloud.</span>
+
+<span class="sd">    The str_to_words is a function that takes a text string and returns a list of words.</span>
+<span class="sd">    By default, it uses the default regular expression to find words.</span>
+
+<span class="sd">    The words_to_weights is a function that takes a list of words and returns a mapping</span>
+<span class="sd">    from words to weights. By default, it uses the Counter function to count the</span>
+<span class="sd">    frequency of each word.</span>
+
+<span class="sd">    The stopwords is a set of words to ignore when creating the word cloud. By default,</span>
+<span class="sd">    it uses the default set of stopwords from the wordcloud package.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_kvs</span><span class="p">,</span> <span class="n">Pipe</span>
+
+    <span class="n">_word_cloud</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+        <span class="n">word_cloud</span><span class="p">,</span>
+        <span class="n">str_to_words</span><span class="o">=</span><span class="n">str_to_words</span><span class="p">,</span>
+        <span class="n">words_to_weights</span><span class="o">=</span><span class="n">words_to_weights</span><span class="p">,</span>
+        <span class="n">wc_decoder</span><span class="o">=</span><span class="n">wc_decoder</span><span class="p">,</span>
+        <span class="n">stopwords</span><span class="o">=</span><span class="n">stopwords</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">word_cloud_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrap_kvs</span><span class="p">(</span><span class="n">text_store</span><span class="p">,</span> <span class="n">value_decoder</span><span class="o">=</span><span class="n">_word_cloud</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

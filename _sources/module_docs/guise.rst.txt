@@ -1,0 +1,4 @@
+guise
+=====
+.. automodule:: guise
+   :members:
