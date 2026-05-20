@@ -1,7 +1,8 @@
 """Word cloud generation with wordcloud.WordCloud."""
 
 import re
-from typing import Mapping, Callable, Union, Sequence, Any, Dict
+from typing import Union, Any, Dict
+from collections.abc import Mapping, Callable, Sequence
 from collections import Counter
 from functools import partial
 from operator import methodcaller

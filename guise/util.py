@@ -3,7 +3,8 @@
 import os
 import re
 from functools import partial, lru_cache
-from typing import Mapping, Any, Iterable, Union, Callable, Sequence, Dict
+from typing import Any, Union, Dict
+from collections.abc import Mapping, Iterable, Callable, Sequence
 from urllib.parse import quote as url_quote
 from collections import Counter
 from numbers import Number
@@ -23,7 +24,7 @@ StemmerSpec = Union[Callable, str, None]
 
 TextToWords = Union[str, Callable[[Text], Words]]
 Weight = Number
-WordWeights = Dict[Word, Weight]
+WordWeights = dict[Word, Weight]
 WordsToWeights = Callable[[Words], Mapping[Text, Weight]]
 WordsSpec = Union[Words, WordWeights]
 

@@ -6,7 +6,7 @@ Also check out the package idiom and lexis for more tools.
 
 """
 
-from typing import Mapping
+from collections.abc import Mapping
 from collections import Counter, defaultdict
 
 from html2text import html2text
@@ -28,7 +28,7 @@ from guise.util import (
 # --------------------------------------------------------------------------------------
 # TF-IDF scoring
 
-from typing import Mapping
+from collections.abc import Mapping
 from functools import lru_cache
 import numpy as np
 import pandas as pd
