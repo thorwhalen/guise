@@ -39,7 +39,7 @@ def _apply_single_word_weighting_func_to_words(
 
 
 def vectorize_word_weighting_func(
-    word_weighting_func: Callable[[Word], Weight]
+    word_weighting_func: Callable[[Word], Weight],
 ) -> WordsToWeights:
     return partial(_apply_single_word_weighting_func_to_words, word_weighting_func)
 

@@ -7,7 +7,7 @@ from functools import partial
 
 from functools import lru_cache
 
-DLFT_TEXT_CLASSIFIER_LANG = 'en-sentiment'
+DLFT_TEXT_CLASSIFIER_LANG = "en-sentiment"
 
 
 @lru_cache
@@ -29,9 +29,9 @@ def _sentiment_score_object(string, lang=DLFT_TEXT_CLASSIFIER_LANG):
 
 def sentiment_score(string):
     score = _sentiment_score_object(string)
-    if score.value == 'NEGATIVE':
+    if score.value == "NEGATIVE":
         return -score.score
-    elif score.value == 'POSITIVE':
+    elif score.value == "POSITIVE":
         return score.score
     else:
         raise ValueError(f"Didn't know score.value could be {score.value}")
@@ -48,8 +48,8 @@ def _score_to_index(score, max_index, min_score=-1, max_score=1):
 def _get_red_to_blue_colors(n=202):
     from colour import Color
 
-    red = Color('red')
-    colors = list(map(str, red.range_to(Color('blue'), n)))[1:-1]
+    red = Color("red")
+    colors = list(map(str, red.range_to(Color("blue"), n)))[1:-1]
     return colors
 
 

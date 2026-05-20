@@ -9,7 +9,7 @@ from guise.nlp import html_tokens, DFLT_INCLUDE_TERMS, DFLT_EXCLUDE_TERMS
 from guise.word_clouds import word_cloud  # for backwards compatibility, importing here
 
 
-DFLT_URL_TO_HTML_KWARGS = (('timeout', 20),)
+DFLT_URL_TO_HTML_KWARGS = (("timeout", 20),)
 
 
 # TODO: Can be accelerated significantly by async
@@ -17,7 +17,7 @@ def google_results_toks(
     q,
     *,
     num=30,
-    lr='lang_en',
+    lr="lang_en",
     include=DFLT_INCLUDE_TERMS,
     exclude=DFLT_EXCLUDE_TERMS,
     verbose=True,
@@ -40,8 +40,8 @@ def google_results_toks(
     # filter out the "bad" results
     htmls = list(filter(None, htmls))
     if problematic_urls and verbose:
-        print('There were some problematic urls:')
-        print(*problematic_urls, sep='\n')
+        print("There were some problematic urls:")
+        print(*problematic_urls, sep="\n")
 
     # return an iterator of tokens (words/terms) extracted from these htmls
     tokenizer = partial(html_tokens, include=include, exclude=exclude)
