@@ -41,12 +41,12 @@ def english_word_frequencies(max_num_of_words: int = 333331) -> Mapping[str, int
     import io
     from collections import Counter
 
-    word_freq_url = 'https://github.com/thorwhalen/content/raw/refs/heads/master/tables/csv/zip/english-word-frequency.csv.zip'
+    word_freq_url = "https://github.com/thorwhalen/content/raw/refs/heads/master/tables/csv/zip/english-word-frequency.csv.zip"
 
     en_word_freq = (
         pd.read_csv(io.BytesIO(ValueCodecs.zip_decompress(graze(word_freq_url))))
         .dropna()
-        .set_index('word')['count']
+        .set_index("word")["count"]
     )
 
     return en_word_freq.iloc[: (333331 + 1)]
@@ -61,7 +61,7 @@ def ensure_corpus_counts(
     """Helper function to get a word"""
     if isinstance(word_count_src, str):
         string = word_count_src
-        if string.strip().lower() == 'english':
+        if string.strip().lower() == "english":
             word_count_src = english_word_frequencies()
         else:
             word_count_src = words_to_weights(str_to_words(string))
@@ -80,7 +80,7 @@ def ensure_corpus_counts(
         return word_count_src
     else:
         raise TypeError(
-            'word_count_src should be a pd.Series or dict of word->weight pairs, '
+            "word_count_src should be a pd.Series or dict of word->weight pairs, "
             'a list of words or a string: "english", to get english word frequencies '
             "(count), or the string that should be split into words and counted. "
             f"Got: {word_count_src}"
@@ -156,13 +156,13 @@ class TFIDFCalculator:
     """
 
     def __init__(
-        self, reference_corpus, idf_type='frequency', stopwords=None, custom_idf=None
+        self, reference_corpus, idf_type="frequency", stopwords=None, custom_idf=None
     ):
         self.stopwords = set(stopwords) if stopwords else set()
 
         self.corpus_counts = ensure_corpus_counts(reference_corpus).astype(float).copy()
         # Remove stop words from corpus counts
-        self.corpus_counts.drop(labels=self.stopwords, errors='ignore', inplace=True)
+        self.corpus_counts.drop(labels=self.stopwords, errors="ignore", inplace=True)
         self.total_counts_corpus = self.corpus_counts.sum()
         self.N = len(self.corpus_counts)  # Number of unique terms in the corpus
 
@@ -183,18 +183,18 @@ class TFIDFCalculator:
         self.default_idf_ = self.idf_.max()
 
     def _compute_idf(self):
-        if self.idf_type == 'standard':
+        if self.idf_type == "standard":
             # IDF = log(N / df)
             idf = np.log(self.N / (self.corpus_counts + 1e-10))
-        elif self.idf_type == 'smooth':
+        elif self.idf_type == "smooth":
             # IDF = log(1 + N / df)
             idf = np.log(1 + self.N / (self.corpus_counts + 1e-10))
-        elif self.idf_type == 'probabilistic':
+        elif self.idf_type == "probabilistic":
             # IDF = log((N - df) / df)
             idf = np.log(
                 (self.N - self.corpus_counts + 1e-10) / (self.corpus_counts + 1e-10)
             )
-        elif self.idf_type == 'frequency':
+        elif self.idf_type == "frequency":
             # IDF = log((total_counts_corpus + 1) / (corpus_counts + 1))
             idf = np.log((self.total_counts_corpus + 1) / (self.corpus_counts + 1))
         else:
@@ -230,7 +230,7 @@ class TFIDFCalculator:
 
         doc_counts = doc_counts.astype(float).copy()
         # Remove stop words from document counts
-        doc_counts.drop(labels=self.stopwords, errors='ignore', inplace=True)
+        doc_counts.drop(labels=self.stopwords, errors="ignore", inplace=True)
 
         total_counts_doc = doc_counts.sum()
         # Compute Term Frequency (TF)
@@ -251,33 +251,33 @@ class TFIDFCalculator:
 _cache = {}
 
 
-DFLT_INCLUDE_TERMS = 'most_frequent_english'
+DFLT_INCLUDE_TERMS = "most_frequent_english"
 DFLT_EXCLUDE_TERMS = STOPWORDS
 
 
 def get_include_terms(include=DFLT_INCLUDE_TERMS) -> WordIterable:
     """allowed_terms = 'most_frequent_english' or 'wordnet_lemmas'"""
 
-    include = include or 'most_frequent_english'
-    if include == 'most_frequent_english':
-        if 'most_frequent_english' not in _cache:
+    include = include or "most_frequent_english"
+    if include == "most_frequent_english":
+        if "most_frequent_english" not in _cache:
             from idiom import word_frequencies  # pip install idiom
 
-            _cache['most_frequent_english'] = set(dict(word_frequencies()))
-        include = _cache['most_frequent_english']
-    elif include == 'wordnet_lemmas':
+            _cache["most_frequent_english"] = set(dict(word_frequencies()))
+        include = _cache["most_frequent_english"]
+    elif include == "wordnet_lemmas":
         from lexis import Lemmas  # pip install lexis
 
-        if 'wordnet_lemmas' not in _cache:
-            _cache['wordnet_lemmas'] = set(Lemmas())
-        include = _cache['wordnet_lemmas']
+        if "wordnet_lemmas" not in _cache:
+            _cache["wordnet_lemmas"] = set(Lemmas())
+        include = _cache["wordnet_lemmas"]
     return include
 
 
 def html_tokens(
     html: str, include=DFLT_INCLUDE_TERMS, exclude=STOPWORDS
 ) -> WordIterable:
-    toks = map(str.strip, html2text(html).split(' '))
+    toks = map(str.strip, html2text(html).split(" "))
     if include is not None:
         include = get_include_terms(include)
         include = set(include) - (exclude or {})
@@ -289,14 +289,14 @@ def html_tokens(
 
 
 def term_filtered_html2text(
-    html, include=DFLT_INCLUDE_TERMS, exclude=DFLT_EXCLUDE_TERMS, sep=' ; '
+    html, include=DFLT_INCLUDE_TERMS, exclude=DFLT_EXCLUDE_TERMS, sep=" ; "
 ) -> str:
     """allowed_terms = 'most_frequent_english' or 'wordnet_lemmas'"""
     return sep.join(html_tokens(html, include, exclude))
 
 
 def stem_based_word_mapping(
-    words: WordIterable, stemmer: StemmerSpec = 'lancaster'
+    words: WordIterable, stemmer: StemmerSpec = "lancaster"
 ) -> WordMap:
     """Returns a dict of {word: replace_with_word, ...} mapping based on stemming.
 
@@ -323,14 +323,14 @@ def stem_based_word_mapping(
         if stemmer is None:
             stemmer = lambda word: word
         elif isinstance(stemmer, str):
-            if stemmer.lower().startswith('porter'):
+            if stemmer.lower().startswith("porter"):
                 stemmer = PorterStemmer().stem
-            elif stemmer.lower().startswith('lancaster'):
+            elif stemmer.lower().startswith("lancaster"):
                 stemmer = LancasterStemmer().stem
             else:
-                raise ValueError(f'Unknown stemmer value: {stemmer}')
+                raise ValueError(f"Unknown stemmer value: {stemmer}")
         else:
-            raise TypeError(f'Unknown stemmer type: {stemmer}')
+            raise TypeError(f"Unknown stemmer type: {stemmer}")
 
     if isinstance(words, Mapping):
         word_count = words
@@ -372,7 +372,7 @@ def map_words_of_word_count(word_count: WordCount, word_map: WordMap) -> WordCou
 
 
 def stem_based_word_count(
-    words: WordIterable, stemmer: StemmerSpec = 'lancaster'
+    words: WordIterable, stemmer: StemmerSpec = "lancaster"
 ) -> WordCount:
     """From an iterable of words, get a WordCount mapping which uses a stem-based map
 
