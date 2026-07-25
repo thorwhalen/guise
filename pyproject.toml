@@ -10,9 +10,25 @@ version = "0.0.11"
 description = "Semantic fingerprinting"
 readme = "README.md"
 requires-python = ">=3.10"
-keywords = []
+license = "Apache-2.0"
+keywords = [
+    "dol",
+    "nlp",
+    "semantic",
+    "fingerprinting",
+    "text-analysis",
+    "wordcloud",
+]
 authors = [
     { name = "Thor Whalen" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
     "colour",
@@ -28,9 +44,6 @@ dependencies = [
     "wordcloud",
     "nltk",
 ]
-
-[project.license]
-text = "Apache-2.0"
 
 [project.urls]
 Homepage = "https://github.com/thorwhalen/guise"
