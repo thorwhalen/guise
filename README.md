@@ -28,14 +28,16 @@ Let's have some fun with that...
 ## Clouding the files of `guise`
 
 ```python
-from dol import TextFiles, filt_iter  # don't worry about installing it, guise comes with dol
+from dol import (
+    TextFiles,
+    filt_iter,
+)  # don't worry about installing it, guise comes with dol
 import guise
 import os
 
 guise_rootdir = os.path.dirname(guise.__file__)
-guise_files = filt_iter(TextFiles(guise_rootdir), filt=lambda x: x.endswith('.py'))
+guise_files = filt_iter(TextFiles(guise_rootdir), filt=lambda x: x.endswith(".py"))
 list(guise_files)
-
 ```
 
 
@@ -58,7 +60,7 @@ The keys are the file names (as seen above with `list(guise_files)`) and the val
 the contents of the file. See the first 30 characters of `'word_clouds.py'`. 
 
 ```python
-guise_files['word_clouds.py'][:30]
+guise_files["word_clouds.py"][:30]
 ```
 
 
@@ -76,7 +78,6 @@ from guise import word_cloud_store
 
 guise_clouds = word_cloud_store(guise_files)
 list(guise_clouds)
-
 ```
 
 
@@ -94,7 +95,7 @@ list(guise_clouds)
 
 
 ```python
-guise_clouds['word_clouds.py']
+guise_clouds["word_clouds.py"]
 ```
 
 
@@ -107,7 +108,7 @@ guise_clouds['word_clouds.py']
 
 
 ```python
-guise_clouds['nlp.py']
+guise_clouds["nlp.py"]
 ```
 
 
@@ -131,12 +132,13 @@ Perhaps it's better to not just use the code, but only the doc strings therein..
 
 ```python
 # Make a function that will extract the docstrings from a Python file
-def just_the_docs(python_code, sep='\n'):
+def just_the_docs(python_code, sep="\n"):
     """Extract the docstrings from a Python file.
     All the docstrings: The module's, the classes', the functions'.
     Then concatenate them all into one big string.
     """
     import ast
+
     module = ast.parse(python_code)
     docstrings = []
     for node in ast.walk(module):
@@ -145,18 +147,22 @@ def just_the_docs(python_code, sep='\n'):
         elif isinstance(node, ast.ClassDef):
             docstrings.append(ast.get_docstring(node))
     aggregate = sep.join(filter(None, docstrings))
-    return aggregate.lower()  # also, let's lower case everything (to count "The" and "the" as the same word)
+    return (
+        aggregate.lower()
+    )  # also, let's lower case everything (to count "The" and "the" as the same word)
+
 
 # Use this little dol tool...
 from dol import wrap_kvs
+
 # ... to make a new key-value store that, instead of giving you the contents of the files,
-# gives you the docstrings therein. 
+# gives you the docstrings therein.
 guise_doc_files = wrap_kvs(guise_files, value_decoder=just_the_docs)
 
 # Now, instead of using the default str_to_words, we'll only extract sequences of letters as words
-# (no numbers or underscores, which is the default). 
+# (no numbers or underscores, which is the default).
 
-guise_doc_clouds = word_cloud_store(guise_doc_files, str_to_words='[a-zA-Z]+')
+guise_doc_clouds = word_cloud_store(guise_doc_files, str_to_words="[a-zA-Z]+")
 # Note: this is equivalent to using str_to_words=re.compile('[a-zA-Z]+').findall
 #   or str_to_words=lambda x: re.compile('[a-zA-Z]+').findall(x)
 ```
@@ -164,7 +170,7 @@ guise_doc_clouds = word_cloud_store(guise_doc_files, str_to_words='[a-zA-Z]+')
 And now gaze at the clouds...
 
 ```python
-guise_doc_clouds['word_clouds.py']
+guise_doc_clouds["word_clouds.py"]
 ```
 
 
@@ -177,7 +183,7 @@ guise_doc_clouds['word_clouds.py']
 
 
 ```python
-guise_doc_clouds['nlp.py']
+guise_doc_clouds["nlp.py"]
 ```
 
 
@@ -209,22 +215,22 @@ from guise import STOPWORDS, TFIDFCalculator
 # Make a list of stopwords (words to ignore) that includes the default ones plus a few more
 my_stopwords = (
     list(STOPWORDS)  # the usual stopwords in English
-    + ['dict', 'list', 'pandas', 'series']   # edit this to add or remove more
+    + ["dict", "list", "pandas", "series"]  # edit this to add or remove more
 )
 
 better_guise_doc_clouds = word_cloud_store(
-    guise_doc_files, 
-    str_to_words='[a-zA-Z]+',
+    guise_doc_files,
+    str_to_words="[a-zA-Z]+",
     # remove the stopwords from the word cloud completely
     stopwords=my_stopwords,
-    # Use "normal" English word frequencies to weigh the words in such a way that 
+    # Use "normal" English word frequencies to weigh the words in such a way that
     # common words are less important
-    words_to_weights=TFIDFCalculator('english')  
+    words_to_weights=TFIDFCalculator("english"),
 )
 ```
 
 ```python
-better_guise_doc_clouds['word_clouds.py']
+better_guise_doc_clouds["word_clouds.py"]
 ```
 
 
@@ -237,7 +243,7 @@ better_guise_doc_clouds['word_clouds.py']
 
 
 ```python
-better_guise_doc_clouds['nlp.py']
+better_guise_doc_clouds["nlp.py"]
 ```
 
 
@@ -265,7 +271,19 @@ from guise import word_cloud
 ```
 
 ```python
-list_of_words = ['Rose', 'rose', 'to', 'put', 'rose', 'roes', 'on', 'her', 'rows', 'of', 'roses']
+list_of_words = [
+    "Rose",
+    "rose",
+    "to",
+    "put",
+    "rose",
+    "roes",
+    "on",
+    "her",
+    "rows",
+    "of",
+    "roses",
+]
 a_word_cloud_obj = word_cloud(list_of_words)
 ```
 
@@ -347,7 +365,6 @@ For example, let's make a `word_cloud_image` that has the `wc_decoder` and `rand
 word_cloud_image = word_cloud(wc_decoder=lambda x: x.to_image(), random_state=42)
 
 word_cloud_image(list_of_words)
-
 ```
 
 
@@ -365,7 +382,7 @@ Note that the words are more prominent, depending on the number of times it is r
 You can control this "word weight" directly if you specify a `{word: weight, ...}` dict input. 
 
 ```python
-word_cloud_image({'little': 0.2, 'BIG': 20})
+word_cloud_image({"little": 0.2, "BIG": 20})
 ```
 
 
@@ -380,7 +397,7 @@ word_cloud_image({'little': 0.2, 'BIG': 20})
 ```python
 # Q: Why does BIG have a weight 100 times little, yet doesn't appear 100 times bigger?
 # A: Because of wordcloud internal defaults meant for general aesthetics. You can control this with extra arguments. For example:
-word_cloud({'little': 0.2, 'BIG': 20}, min_font_size=1, max_font_size=1000).to_image()
+word_cloud({"little": 0.2, "BIG": 20}, min_font_size=1, max_font_size=1000).to_image()
 ```
 
 
@@ -397,7 +414,7 @@ word_cloud({'little': 0.2, 'BIG': 20}, min_font_size=1, max_font_size=1000).to_i
 If you input just a string, `word_cloud` will both extract the words and (count-)weight them for you:
 
 ```python
-word_cloud_image('That that is is that that is not is not is that it it is.')
+word_cloud_image("That that is is that that is not is not is that it it is.")
 ```
 
 
@@ -432,7 +449,7 @@ But you can control this by specifying your own `str_to_words` function.
 Say you want to just split over spaces to get your "words" (really "tokens", because you'll get punctuation, composed words, etc.):
 
 ```python
-word_cloud_image(quote_1, str_to_words=lambda x: x.split(' '))
+word_cloud_image(quote_1, str_to_words=lambda x: x.split(" "))
 ```
 
 
@@ -448,7 +465,7 @@ If you specify a string as your `str_to_words`, it will be considered as a regul
 Here we define a word to be any uninterrupted sequence of letters, numbers or underscores (that's the `\w` part) or dashes. 
 
 ```python
-word_cloud_image(quote_1, str_to_words='[\w-]+')
+word_cloud_image(quote_1, str_to_words="[\w-]+")
 ```
 
 
@@ -495,7 +512,7 @@ using statistics over 333K+ words of a large English corpus.
 ```python
 from guise import TFIDFCalculator
 
-words_to_weights = TFIDFCalculator('english')
+words_to_weights = TFIDFCalculator("english")
 word_cloud_image(james_had, words_to_weights=words_to_weights)
 ```
 
