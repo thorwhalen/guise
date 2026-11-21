@@ -65,8 +65,8 @@ def scrape_and_store(
 
 def get_text_store(html_store=None, html2text=term_filtered_html2text):
     _html_2_text_store = wrap_kvs(
-        key_of_id=lambda x: x[: -len('.html')],
-        id_of_key=lambda x: x + '.html',
-        obj_of_data=html2text,
+        key_decoder=lambda x: x[: -len('.html')],
+        key_encoder=lambda x: x + '.html',
+        value_decoder=html2text,
     )
     return _html_2_text_store(get_html_store(html_store))
