@@ -1,4 +1,0 @@
-guise.examples
-==============
-.. automodule:: guise.examples
-   :members:

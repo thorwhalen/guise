@@ -1,0 +1,17 @@
+﻿guise
+=====
+
+.. automodule:: guise
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   nlp
+   tools
+   util
+   word_clouds
+   word_scoring

@@ -1,0 +1,15 @@
+guise.word\_clouds
+==================
+
+.. automodule:: guise.word_clouds
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      vectorize_word_weighting_func
+      word_cloud
+      word_cloud_store
+      words_to_word_weights_dict
+   

@@ -1,0 +1,21 @@
+guise.util
+==========
+
+.. automodule:: guise.util
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      all_links_of_html
+      conditional_print
+      get_html_store
+      get_pyversion
+      google_results_urls
+      google_search_html
+      make_dflt_html_store_dir
+      print_status_code_and_content
+      url_to_html
+      without_nones
+   

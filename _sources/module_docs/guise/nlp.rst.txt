@@ -1,4 +1,0 @@
-guise.nlp
-=========
-.. automodule:: guise.nlp
-   :members:

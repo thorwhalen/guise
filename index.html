@@ -1,165 +1,624 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt"><link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="API reference" href="api.html">
+
+    <!-- Generated with Sphinx 9.1.1 and Furo 2025.12.19 -->
+        <title>guise</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_autodoc_typehints.css?v=057ac668" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
 
 
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to guise’s documentation! &mdash; guise 0.0.11 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
-
+<style>
+  body {
+    --color-code-background: #f0f0f0;
+  --color-code-foreground: black;
+  --color-brand-primary: #8b3361;
+  --color-brand-content: #8b3361;
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=0c446633"></script>
-      <script src="_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
-      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="guise" href="module_docs/guise.html" /> 
-</head>
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #f693c2;
+  --color-brand-content: #f693c2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #f693c2;
+  --color-brand-content: #f693c2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
 
-          
-          
-          <a href="#" class="icon icon-home">
-            guise
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise.html">guise</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/examples.html">guise.examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/examples/energy_startups.html">guise.examples.energy_startups</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/nlp.html">guise.nlp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/tools.html">guise.tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/util.html">guise.util</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/word_clouds.html">guise.word_clouds</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/word_scoring.html">guise.word_scoring</a></li>
-</ul>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">guise</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to guise’s documentation!</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="welcome-to-guise-s-documentation">
-<h1>Welcome to guise’s documentation!<a class="headerlink" href="#welcome-to-guise-s-documentation" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise.html">guise</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/examples.html">guise.examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/examples/energy_startups.html">guise.examples.energy_startups</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/nlp.html">guise.nlp</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.DFLT_STR_TO_WORD"><code class="docutils literal notranslate"><span class="pre">DFLT_STR_TO_WORD()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.TFIDFCalculator"><code class="docutils literal notranslate"><span class="pre">TFIDFCalculator</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.ensure_corpus_counts"><code class="docutils literal notranslate"><span class="pre">ensure_corpus_counts()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.get_include_terms"><code class="docutils literal notranslate"><span class="pre">get_include_terms()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.map_words_of_word_count"><code class="docutils literal notranslate"><span class="pre">map_words_of_word_count()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.stem_based_word_count"><code class="docutils literal notranslate"><span class="pre">stem_based_word_count()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.stem_based_word_mapping"><code class="docutils literal notranslate"><span class="pre">stem_based_word_mapping()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/nlp.html#guise.nlp.term_filtered_html2text"><code class="docutils literal notranslate"><span class="pre">term_filtered_html2text()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/tools.html">guise.tools</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/tools.html#guise.tools.google_results_toks"><code class="docutils literal notranslate"><span class="pre">google_results_toks()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/util.html">guise.util</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/util.html#guise.util.DFLT_STR_TO_WORD"><code class="docutils literal notranslate"><span class="pre">DFLT_STR_TO_WORD()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/util.html#guise.util.conditional_print"><code class="docutils literal notranslate"><span class="pre">conditional_print()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/util.html#guise.util.google_search_html"><code class="docutils literal notranslate"><span class="pre">google_search_html()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/word_clouds.html">guise.word_clouds</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/word_clouds.html#guise.word_clouds.DFLT_STR_TO_WORD"><code class="docutils literal notranslate"><span class="pre">DFLT_STR_TO_WORD()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/word_clouds.html#guise.word_clouds.word_cloud"><code class="docutils literal notranslate"><span class="pre">word_cloud()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/guise/word_clouds.html#guise.word_clouds.word_cloud_store"><code class="docutils literal notranslate"><span class="pre">word_cloud_store()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/guise/word_scoring.html">guise.word_scoring</a></li>
-</ul>
-</div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
-<p>Release: 0.0.11</p>
-<p>Last change: Jul 25, 2026</p>
-</section>
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
 
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="module_docs/guise.html" class="btn btn-neutral float-right" title="guise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
     </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">guise</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  <span class="sidebar-brand-text">guise</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API reference</a><input aria-label="Toggle navigation of API reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="_autosummary/guise.html">guise</a><input aria-label="Toggle navigation of guise" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/guise.nlp.html">guise.nlp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/guise.tools.html">guise.tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/guise.util.html">guise.util</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/guise.word_clouds.html">guise.word_clouds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/guise.word_scoring.html">guise.word_scoring</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
-</body>
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/index.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <!-- generated by epythet -->
+<section id="guise">
+<h1>guise<a class="headerlink" href="#guise" title="Link to this heading">¶</a></h1>
+<p>Semantic fingerprinting made easy.</p>
+<p>To install:	<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">guise</span></code></p>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">guise</span></code> is a Python package designed to simplify the process of creating word clouds from text data. It provides tools to transform text into word clouds, allowing for easy visualization of the most prominent words in a given text. The package includes functionalities for text tokenization, word weighting, and customization of word cloud generation.</p>
+<p>Key features:</p>
+<ul class="simple">
+<li><p>Create word clouds from text files or strings.</p></li>
+<li><p>Customize word tokenization and weighting.</p></li>
+<li><p>Control the appearance and content of word clouds.</p></li>
+<li><p>Use built-in stopwords and TF-IDF weighting.</p></li>
+</ul>
+</section>
+<section id="the-word-cloud-store-function">
+<span id="the-word_cloud_store-function"></span><h1>The <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code> function<a class="headerlink" href="#the-word-cloud-store-function" title="Link to this heading">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code> is a function that creates a word cloud store from a text store.
+(By “store” we mean <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (the fancy way of saying <code class="docutils literal notranslate"><span class="pre">dict</span></code>-like)).
+The text store is a mapping from keys to text strings.
+The word cloud store is a mapping from keys to word clouds.</p>
+<p>Let’s have some fun with that…</p>
+<section id="clouding-the-files-of-guise">
+<h2>Clouding the files of <code class="docutils literal notranslate"><span class="pre">guise</span></code><a class="headerlink" href="#clouding-the-files-of-guise" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TextFiles</span><span class="p">,</span>
+    <span class="n">filt_iter</span><span class="p">,</span>
+<span class="p">)</span>  <span class="c1"># don't worry about installing it, guise comes with dol</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">guise</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">guise_rootdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">guise</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+<span class="n">guise_files</span> <span class="o">=</span> <span class="n">filt_iter</span><span class="p">(</span><span class="n">TextFiles</span><span class="p">(</span><span class="n">guise_rootdir</span><span class="p">),</span> <span class="n">filt</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".py"</span><span class="p">))</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">guise_files</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>['util.py',
+ 'tools.py',
+ '__init__.py',
+ 'word_scoring.py',
+ 'nlp.py',
+ 'word_clouds.py',
+ 'examples/__init__.py',
+ 'examples/energy_startups/__init__.py']
+</pre></div>
+</div>
+<p>See that <code class="docutils literal notranslate"><span class="pre">guise_files</span></code> is a <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (that means “dict-like”) of text.
+We often call that a (text) “store”.
+The keys are the file names (as seen above with <code class="docutils literal notranslate"><span class="pre">list(guise_files)</span></code>) and the values are
+the contents of the file. See the first 30 characters of <code class="docutils literal notranslate"><span class="pre">'word_clouds.py'</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">guise_files</span><span class="p">[</span><span class="s2">"word_clouds.py"</span><span class="p">][:</span><span class="mi">30</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>'"""Word cloud generation with '
+</pre></div>
+</div>
+<p>Now, if you give a text store (that is, any <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">dict</span></code>) of text) to <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code>,
+it’ll give you back a store with the same keys…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">word_cloud_store</span>
+
+<span class="n">guise_clouds</span> <span class="o">=</span> <span class="n">word_cloud_store</span><span class="p">(</span><span class="n">guise_files</span><span class="p">)</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">guise_clouds</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>['util.py',
+ 'tools.py',
+ '__init__.py',
+ 'word_scoring.py',
+ 'nlp.py',
+ 'word_clouds.py',
+ 'examples/__init__.py',
+ 'examples/energy_startups/__init__.py']
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">guise_clouds</span><span class="p">[</span><span class="s2">"word_clouds.py"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_9_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">guise_clouds</span><span class="p">[</span><span class="s2">"nlp.py"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_10_0.png" /></p>
+</section>
+<section id="controlling-the-words-that-get-into-the-clouds">
+<h2>Controlling the words that get into the clouds<a class="headerlink" href="#controlling-the-words-that-get-into-the-clouds" title="Link to this heading">¶</a></h2>
+<p>Of course, like all good tool, it’s simple to use, but you can bend it in many ways, to do many things.</p>
+<p>For example, say you didn’t like the clouds above.
+There are too many code bits, underscored words, code-specific names (e.g. “self”).
+They don’t really represent what’s in the module.
+You’d rather that the word clouds have english words in them.
+Perhaps it’s better to not just use the code, but only the doc strings therein…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make a function that will extract the docstrings from a Python file</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">just_the_docs</span><span class="p">(</span><span class="n">python_code</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Extract the docstrings from a Python file.</span>
+<span class="sd">    All the docstrings: The module's, the classes', the functions'.</span>
+<span class="sd">    Then concatenate them all into one big string.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+
+    <span class="n">module</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">python_code</span><span class="p">)</span>
+    <span class="n">docstrings</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">FunctionDef</span><span class="p">):</span>
+            <span class="n">docstrings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">get_docstring</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ast</span><span class="o">.</span><span class="n">ClassDef</span><span class="p">):</span>
+            <span class="n">docstrings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">get_docstring</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+    <span class="n">aggregate</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">docstrings</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">aggregate</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="p">)</span>  <span class="c1"># also, let's lower case everything (to count "The" and "the" as the same word)</span>
+
+
+<span class="c1"># Use this little dol tool...</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_kvs</span>
+
+<span class="c1"># ... to make a new key-value store that, instead of giving you the contents of the files,</span>
+<span class="c1"># gives you the docstrings therein.</span>
+<span class="n">guise_doc_files</span> <span class="o">=</span> <span class="n">wrap_kvs</span><span class="p">(</span><span class="n">guise_files</span><span class="p">,</span> <span class="n">value_decoder</span><span class="o">=</span><span class="n">just_the_docs</span><span class="p">)</span>
+
+<span class="c1"># Now, instead of using the default str_to_words, we'll only extract sequences of letters as words</span>
+<span class="c1"># (no numbers or underscores, which is the default).</span>
+
+<span class="n">guise_doc_clouds</span> <span class="o">=</span> <span class="n">word_cloud_store</span><span class="p">(</span><span class="n">guise_doc_files</span><span class="p">,</span> <span class="n">str_to_words</span><span class="o">=</span><span class="s2">"[a-zA-Z]+"</span><span class="p">)</span>
+<span class="c1"># Note: this is equivalent to using str_to_words=re.compile('[a-zA-Z]+').findall</span>
+<span class="c1">#   or str_to_words=lambda x: re.compile('[a-zA-Z]+').findall(x)</span>
+</pre></div>
+</div>
+<p>And now gaze at the clouds…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">guise_doc_clouds</span><span class="p">[</span><span class="s2">"word_clouds.py"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_15_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">guise_doc_clouds</span><span class="p">[</span><span class="s2">"nlp.py"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_16_0.png" /></p>
+</section>
+<section id="controlling-the-weight-of-the-words-in-the-cloud">
+<h2>Controlling the weight of the words in the cloud<a class="headerlink" href="#controlling-the-weight-of-the-words-in-the-cloud" title="Link to this heading">¶</a></h2>
+<p>You probably noticed that a significant amount of visual space is taken by common words.</p>
+<p>Words like “the”, “of”, “to” etc. don’t really convey much information.
+Further, maybe the docs still contain some words you’d like to ignore.
+The NLP concept of “stopwords” takes care of this.</p>
+<p>Finally, to really nail the “this word cloud gives us a snap shot of the what the underlying
+text is about, we probably want to weigh the words, yes, according to how frequently they’re used
+in the text, but also lower the weight according to how frequently they’re used in
+normal language, to really highlight what is particular about the text.
+This is just the idea of “stop words” made “smooth” (no black/white decision, but a scale).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">STOPWORDS</span><span class="p">,</span> <span class="n">TFIDFCalculator</span>
+
+<span class="c1"># Make a list of stopwords (words to ignore) that includes the default ones plus a few more</span>
+<span class="n">my_stopwords</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span>  <span class="c1"># the usual stopwords in English</span>
+    <span class="o">+</span> <span class="p">[</span><span class="s2">"dict"</span><span class="p">,</span> <span class="s2">"list"</span><span class="p">,</span> <span class="s2">"pandas"</span><span class="p">,</span> <span class="s2">"series"</span><span class="p">]</span>  <span class="c1"># edit this to add or remove more</span>
+<span class="p">)</span>
+
+<span class="n">better_guise_doc_clouds</span> <span class="o">=</span> <span class="n">word_cloud_store</span><span class="p">(</span>
+    <span class="n">guise_doc_files</span><span class="p">,</span>
+    <span class="n">str_to_words</span><span class="o">=</span><span class="s2">"[a-zA-Z]+"</span><span class="p">,</span>
+    <span class="c1"># remove the stopwords from the word cloud completely</span>
+    <span class="n">stopwords</span><span class="o">=</span><span class="n">my_stopwords</span><span class="p">,</span>
+    <span class="c1"># Use "normal" English word frequencies to weigh the words in such a way that</span>
+    <span class="c1"># common words are less important</span>
+    <span class="n">words_to_weights</span><span class="o">=</span><span class="n">TFIDFCalculator</span><span class="p">(</span><span class="s2">"english"</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">better_guise_doc_clouds</span><span class="p">[</span><span class="s2">"word_clouds.py"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_20_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">better_guise_doc_clouds</span><span class="p">[</span><span class="s2">"nlp.py"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_21_0.png" /></p>
+</section>
+</section>
+<section id="the-word-cloud-function">
+<span id="the-word_cloud-function"></span><h1>The <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> function<a class="headerlink" href="#the-word-cloud-function" title="Link to this heading">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code> function uses the <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> function to do it’s job.</p>
+<p>And the word <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> function just adds some useful parameters to the already excellent
+<a class="reference external" href="https://pypi.org/project/wordcloud/">wordcloud</a> package (<a class="reference external" href="https://amueller.github.io/word_cloud/">wordcloud documentation</a>).</p>
+<p>The main raison d’être of <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> over the already existing tools of the <code class="docutils literal notranslate"><span class="pre">wordcloud</span></code> package is
+that I wanted to make easier to make parametrized text-sources-to-word-clouds pipelines.
+Namely, be able to control better the extraction of text, the corresponding words (a.k.a. “tokenization”) and weighting of these words.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">word_cloud</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">list_of_words</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"Rose"</span><span class="p">,</span>
+    <span class="s2">"rose"</span><span class="p">,</span>
+    <span class="s2">"to"</span><span class="p">,</span>
+    <span class="s2">"put"</span><span class="p">,</span>
+    <span class="s2">"rose"</span><span class="p">,</span>
+    <span class="s2">"roes"</span><span class="p">,</span>
+    <span class="s2">"on"</span><span class="p">,</span>
+    <span class="s2">"her"</span><span class="p">,</span>
+    <span class="s2">"rows"</span><span class="p">,</span>
+    <span class="s2">"of"</span><span class="p">,</span>
+    <span class="s2">"roses"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">a_word_cloud_obj</span> <span class="o">=</span> <span class="n">word_cloud</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">a_word_cloud_obj</span></code> is a <code class="docutils literal notranslate"><span class="pre">WordCloud</span></code> object, from which you can do all kinds of things.
+See <a class="reference external" href="https://amueller.github.io/word_cloud/">word_cloud’s documentation</a> for more information.
+The two main methods we might be interested here are the <code class="docutils literal notranslate"><span class="pre">to_file(...)</span></code> methods and <code class="docutils literal notranslate"><span class="pre">to_image()</span></code> method.
+The later will give you a <code class="docutils literal notranslate"><span class="pre">PIL.Image</span></code> object, which namely, displays in a notebook if it’s the last statement in the cell.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a_word_cloud_obj</span><span class="o">.</span><span class="n">to_image</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_27_0.png" /></p>
+<section id="transforming-the-output">
+<h2>Transforming the output<a class="headerlink" href="#transforming-the-output" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">wc_decoder</span></code> argument lets you transform the output on the fly.
+So if you wanted to get a <code class="docutils literal notranslate"><span class="pre">PIL</span></code> image object directly, you could do this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">,</span> <span class="n">wc_decoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_image</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_29_0.png" /></p>
+</section>
+<section id="always-getting-the-same-output">
+<h2>Always getting the same output<a class="headerlink" href="#always-getting-the-same-output" title="Link to this heading">¶</a></h2>
+<p>Notice that the output was different, though the input was the same.
+That’s because there’s some randomness builtin the process.
+Randomness is often a good thing for creative processes, but if you need consistent outputs, you can fix the <code class="docutils literal notranslate"><span class="pre">random_state</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">,</span> <span class="n">wc_decoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_image</span><span class="p">(),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_31_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">,</span> <span class="n">wc_decoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_image</span><span class="p">(),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_32_0.png" /></p>
+</section>
+<section id="fixing-your-parameters">
+<h2>Fixing your parameters<a class="headerlink" href="#fixing-your-parameters" title="Link to this heading">¶</a></h2>
+<p>Once you know what you want your parameters to be, you can fix them by calling the function without the first <code class="docutils literal notranslate"><span class="pre">words</span></code> input, and you’ll get a function (it’s called a “partial” function) with those parameters you specified fixed.</p>
+<p>For example, let’s make a <code class="docutils literal notranslate"><span class="pre">word_cloud_image</span></code> that has the <code class="docutils literal notranslate"><span class="pre">wc_decoder</span></code> and <code class="docutils literal notranslate"><span class="pre">random_state</span></code> fixed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span> <span class="o">=</span> <span class="n">word_cloud</span><span class="p">(</span><span class="n">wc_decoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_image</span><span class="p">(),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">word_cloud_image</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_34_0.png" /></p>
+</section>
+<section id="specifying-word-weights-explicitly">
+<h2>Specifying word weights explicitly<a class="headerlink" href="#specifying-word-weights-explicitly" title="Link to this heading">¶</a></h2>
+<p>Note that the words are more prominent, depending on the number of times it is repeated.
+You can control this “word weight” directly if you specify a <code class="docutils literal notranslate"><span class="pre">{word:</span> <span class="pre">weight,</span> <span class="pre">...}</span></code> dict input.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span><span class="p">({</span><span class="s2">"little"</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">"BIG"</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_37_0.png" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Q: Why does BIG have a weight 100 times little, yet doesn't appear 100 times bigger?</span>
+<span class="c1"># A: Because of wordcloud internal defaults meant for general aesthetics. You can control this with extra arguments. For example:</span>
+<span class="n">word_cloud</span><span class="p">({</span><span class="s2">"little"</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">"BIG"</span><span class="p">:</span> <span class="mi">20</span><span class="p">},</span> <span class="n">min_font_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_font_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">to_image</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_38_0.png" /></p>
+</section>
+<section id="input-simple-text">
+<h2>Input simple text<a class="headerlink" href="#input-simple-text" title="Link to this heading">¶</a></h2>
+<p>If you input just a string, <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> will both extract the words and (count-)weight them for you:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span><span class="p">(</span><span class="s2">"That that is is that that is not is not is that it it is."</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_41_0.png" /></p>
+</section>
+<section id="tokenization-from-text-to-words">
+<h2>Tokenization (from text to words)<a class="headerlink" href="#tokenization-from-text-to-words" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">quote_1</span> <span class="o">=</span> <span class="s2">"Success is not-final, failure is not-fatal: it is the courage-to-continue that counts."</span>  <span class="c1"># – Winston Churchill</span>
+<span class="n">word_cloud_image</span><span class="p">(</span><span class="n">quote_1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_43_0.png" /></p>
+<p>Note how “not-final” was split into two words, “not” and “final”, and that no punctuation was included.
+<code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> has it’s own default way of breaking the text into words (this is called “tokenization”).
+But you can control this by specifying your own <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code> function.</p>
+<p>Say you want to just split over spaces to get your “words” (really “tokens”, because you’ll get punctuation, composed words, etc.):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span><span class="p">(</span><span class="n">quote_1</span><span class="p">,</span> <span class="n">str_to_words</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_45_0.png" /></p>
+<p>If you specify a string as your <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code>, it will be considered as a regular expression that defines what a matching word should be.
+Here we define a word to be any uninterrupted sequence of letters, numbers or underscores (that’s the <code class="docutils literal notranslate"><span class="pre">\w</span></code> part) or dashes.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span><span class="p">(</span><span class="n">quote_1</span><span class="p">,</span> <span class="n">str_to_words</span><span class="o">=</span><span class="s2">"[\w-]+"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_47_0.png" /></p>
+</section>
+<section id="control-the-weighting-of-the-words">
+<h2>Control the weighting of the words<a class="headerlink" href="#control-the-weighting-of-the-words" title="Link to this heading">¶</a></h2>
+<p>Of course, you can always take your text, tokenize it into words, then put those words through a weighting process, then give it to <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code>. But if you want that process to happen automatically when given some text, ou can specify <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code>, as we’ve seen
+above, for the tokenization, and can also specify the word weighting function through the <code class="docutils literal notranslate"><span class="pre">words_to_weights</span></code> argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">james_had</span> <span class="o">=</span> <span class="s2">"James, while John had had 'had,' had had 'had had'; 'had had' had had a better effect on the teacher."</span>
+
+<span class="c1"># Let's weight the words by the parity of their length:</span>
+<span class="n">word_cloud_image</span><span class="p">(</span><span class="n">james_had</span><span class="p">,</span> <span class="n">words_to_weights</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_49_0.png" /></p>
+<p>That <code class="docutils literal notranslate"><span class="pre">words_to_weights</span></code> was a silly one, just for fun.
+Usually, you’ll put a bit more work in to get a word weighting function that is appropriate
+for your narrative.
+The <code class="docutils literal notranslate"><span class="pre">guise</span></code> package offers some tools for making these in the <code class="docutils literal notranslate"><span class="pre">guise.nlp</span></code> module.</p>
+<p>For example, we have the <code class="docutils literal notranslate"><span class="pre">TFIDFCalculator</span></code>, with which you can weigh words “up” as
+their word count increases (the <code class="docutils literal notranslate"><span class="pre">TF</span></code> part) but also weight them “down” as those words
+are considered more common in the particular context you’re looking at.
+The tool even offers a convenient way to just compare to “general english langauge usage”,
+using statistics over 333K+ words of a large English corpus.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">TFIDFCalculator</span>
+
+<span class="n">words_to_weights</span> <span class="o">=</span> <span class="n">TFIDFCalculator</span><span class="p">(</span><span class="s2">"english"</span><span class="p">)</span>
+<span class="n">word_cloud_image</span><span class="p">(</span><span class="n">james_had</span><span class="p">,</span> <span class="n">words_to_weights</span><span class="o">=</span><span class="n">words_to_weights</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_51_0.png" /></p>
+<p class="epythet-aggregates">This documentation as a single file: <a href="guise.md">guise.md</a> (Markdown, for agents).</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-21 17:53 UTC from <a href="https://github.com/thorwhalen/guise/commit/da9ea422946536a6649831671094a68d6cc723bb">da9ea42</a> (master) · guise 0.0.12 · <a href="about-this-build.html">about this build</a></p>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="api.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">API reference</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            Made with 
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=c249dd19"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=fd10adb8"></script>
+    </body>
 </html>

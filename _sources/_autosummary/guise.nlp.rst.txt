@@ -1,0 +1,25 @@
+guise.nlp
+=========
+
+.. automodule:: guise.nlp
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      english_word_frequencies
+      ensure_corpus_counts
+      get_include_terms
+      html_tokens
+      map_words_of_word_count
+      stem_based_word_count
+      stem_based_word_mapping
+      term_filtered_html2text
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      TFIDFCalculator
+   

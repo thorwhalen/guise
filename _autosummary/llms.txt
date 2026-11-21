@@ -1,0 +1,17 @@
+# guise
+
+> Semantic fingerprinting
+
+
+## Pages in this subsection
+
+- [guise](guise.html.md): Semantic fingerprinting
+- [guise.nlp](guise.nlp.html.md): Natural language processing tools.
+- [guise.tools](guise.tools.html.md): | &#96;google_results_toks&#96;(q, &#92;&#42;&#91;, num, lr, ...&#93;)   | A generator of tokens   |
+- [guise.util](guise.util.html.md): | &#96;all_links_of_html&#96;(html&#91;, href_value_pattern&#93;)                                                   ...
+- [guise.word_clouds](guise.word_clouds.html.md): Word cloud generation with wordcloud.WordCloud.
+- [guise.word_scoring](guise.word_scoring.html.md): Tools to get scores from words
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

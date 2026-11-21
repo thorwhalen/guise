@@ -1,0 +1,12 @@
+guise.tools
+===========
+
+.. automodule:: guise.tools
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      google_results_toks
+   

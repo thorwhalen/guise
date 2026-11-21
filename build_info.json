@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-11-21T17:53:34Z",
+  "package": {
+    "name": "guise",
+    "version": "0.0.12",
+    "display_name": "guise",
+    "source": "pyproject.toml"
+  },
+  "git": {
+    "available": true,
+    "commit": "da9ea422946536a6649831671094a68d6cc723bb",
+    "short_commit": "da9ea42",
+    "branch": "master",
+    "tags": [],
+    "dirty": false,
+    "remote_url": "https://github.com/thorwhalen/guise",
+    "commit_url": "https://github.com/thorwhalen/guise/commit/da9ea422946536a6649831671094a68d6cc723bb",
+    "error": null
+  },
+  "ci": {
+    "provider": "github",
+    "repository": "thorwhalen/guise",
+    "sha": "da9ea422946536a6649831671094a68d6cc723bb",
+    "sha_in_history": true,
+    "ref": "refs/heads/master",
+    "ref_name": "master",
+    "run_id": "44932097961",
+    "run_url": "https://github.com/thorwhalen/guise/actions/runs/44932097961",
+    "server_url": "https://github.com"
+  },
+  "tools": {
+    "epythet": "0.2.23",
+    "sphinx": "9.1.1",
+    "docutils": "0.22.4",
+    "python": "3.12.16"
+  },
+  "config": {
+    "theme": "auto",
+    "html_theme": "furo",
+    "accent": "#8b3361",
+    "mode": "auto",
+    "api_generator": "autosummary",
+    "ignore": [
+      "tests/",
+      "scrap/",
+      "examples/"
+    ],
+    "agent_outputs": true,
+    "aggregates": [
+      "md"
+    ],
+    "ai_artifacts": true,
+    "provenance": true,
+    "docs_dir": "docsrc"
+  },
+  "site": {
+    "modules_documented": 6,
+    "objects_documented": 17
+  },
+  "pypi": {
+    "checked": true,
+    "latest": "0.0.13",
+    "relation": "behind",
+    "error": null
+  },
+  "reproduce": "git clone https://github.com/thorwhalen/guise && cd guise\ngit checkout da9ea422946536a6649831671094a68d6cc723bb\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "warnings": [],
+  "alignment": {
+    "aligned": false,
+    "notes": [
+      "The documented version (0.0.12) is behind the latest release on PyPI (0.0.13): `pip install guise` gives newer code than these docs describe."
+    ]
+  }
+}

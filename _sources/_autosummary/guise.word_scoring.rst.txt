@@ -1,0 +1,13 @@
+guise.word\_scoring
+===================
+
+.. automodule:: guise.word_scoring
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      mk_word_score_base_color_func
+      sentiment_score
+   

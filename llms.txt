@@ -1,0 +1,24 @@
+# guise
+
+> Semantic fingerprinting
+
+
+## Pages
+
+- [guise](index.html.md): Semantic fingerprinting made easy.
+- [API reference](api.html.md): | &#96;guise&#96;   | Semantic fingerprinting   |
+- [guise](_autosummary/guise.html.md): Semantic fingerprinting
+- [guise.nlp](_autosummary/guise.nlp.html.md): Natural language processing tools.
+- [guise.tools](_autosummary/guise.tools.html.md): | &#96;google_results_toks&#96;(q, &#92;&#42;&#91;, num, lr, ...&#93;)   | A generator of tokens   |
+- [guise.util](_autosummary/guise.util.html.md): | &#96;all_links_of_html&#96;(html&#91;, href_value_pattern&#93;)                                                   ...
+- [guise.word_clouds](_autosummary/guise.word_clouds.html.md): Word cloud generation with wordcloud.WordCloud.
+- [guise.word_scoring](_autosummary/guise.word_scoring.html.md): Tools to get scores from words
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-21 17:53 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+
+## Optional
+
+- [guise.md](guise.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)
