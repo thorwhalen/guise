@@ -5,19 +5,19 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-11-21 17:53 UTC** from commit <a href="https://github.com/thorwhalen/guise/commit/da9ea422946536a6649831671094a68d6cc723bb"><code>da9ea42</code></a> on branch <code>master</code>, for **guise 0.0.12** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-23 07:45 UTC** from commit <a href="https://github.com/thorwhalen/guise/commit/fbc8f1411431ac6fe64294a710f43ee7fd932c7e"><code>fbc8f14</code></a> on branch <code>master</code>, for **guise 0.0.13** (from <code>pyproject.toml</code>).
 
 :::{warning}
 The documentation and the package may be misaligned:
 
-- The documented version (0.0.12) is behind the latest release on PyPI (0.0.13): `pip install guise` gives newer code than these docs describe.
+- The documented version (0.0.13) is behind the latest release on PyPI (0.0.14): `pip install guise` gives newer code than these docs describe.
 :::
 
 ## Source
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/thorwhalen/guise/commit/da9ea422946536a6649831671094a68d6cc723bb"><code>da9ea422946536a6649831671094a68d6cc723bb</code></a> |
+| Commit | <a href="https://github.com/thorwhalen/guise/commit/fbc8f1411431ac6fe64294a710f43ee7fd932c7e"><code>fbc8f1411431ac6fe64294a710f43ee7fd932c7e</code></a> |
 | Branch | <code>master</code> |
 | Tags at this commit | none |
 | Working tree | clean |
@@ -28,15 +28,15 @@ The documentation and the package may be misaligned:
 | | |
 |---|---|
 | Repository | <code>thorwhalen/guise</code> |
-| Run | <a href="https://github.com/thorwhalen/guise/actions/runs/44932097961">44932097961</a> |
+| Run | <a href="https://github.com/thorwhalen/guise/actions/runs/45132909081">45132909081</a> |
 | Ref | <code>refs/heads/master</code> |
-| Event commit | <code>da9ea422946536a6649831671094a68d6cc723bb</code> (in the history of the built commit) |
+| Event commit | <code>fbc8f1411431ac6fe64294a710f43ee7fd932c7e</code> (in the history of the built commit) |
 
 ## Tools
 
 | | |
 |---|---|
-| epythet | 0.2.23 |
+| epythet | 0.2.24 |
 | Sphinx | 9.1.1 |
 | docutils | 0.22.4 |
 | Python | 3.12.16 |
@@ -55,14 +55,14 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/guise/0.0.13/">0.0.13</a>, newer than the documented version (0.0.12).
+Latest release: <a href="https://pypi.org/project/guise/0.0.14/">0.0.14</a>, newer than the documented version (0.0.13).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/guise && cd guise
-git checkout da9ea422946536a6649831671094a68d6cc723bb
-pip install "epythet==0.2.23"
+git checkout fbc8f1411431ac6fe64294a710f43ee7fd932c7e
+pip install "epythet==0.2.24"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

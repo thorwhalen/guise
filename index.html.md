@@ -4,7 +4,9 @@
 
 Semantic fingerprinting made easy.
 
-To install:	`pip install guise`
+```bash
+pip install guise
+```
 
 # Overview
 
@@ -19,10 +21,7 @@ Key features:
 
 # The `word_cloud_store` function
 
-The `word_cloud_store` is a function that creates a word cloud store from a text store.
-(By “store” we mean `Mapping` (the fancy way of saying `dict`-like)).
-The text store is a mapping from keys to text strings.
-The word cloud store is a mapping from keys to word clouds.
+The `word_cloud_store` is a function that creates a word cloud store from a text store. (By “store” we mean `Mapping` (the fancy way of saying `dict`-like)). The text store is a mapping from keys to text strings. The word cloud store is a mapping from keys to word clouds.
 
 Let’s have some fun with that…
 
@@ -52,10 +51,7 @@ list(guise_files)
  'examples/energy_startups/__init__.py']
 ```
 
-See that `guise_files` is a `Mapping` (that means “dict-like”) of text.
-We often call that a (text) “store”.
-The keys are the file names (as seen above with `list(guise_files)`) and the values are
-the contents of the file. See the first 30 characters of `'word_clouds.py'`.
+See that `guise_files` is a `Mapping` (that means “dict-like”) of text. We often call that a (text) “store”. The keys are the file names (as seen above with `list(guise_files)`) and the values are the contents of the file. See the first 30 characters of `'word_clouds.py'`.
 
 ```python
 guise_files["word_clouds.py"][:30]
@@ -65,8 +61,7 @@ guise_files["word_clouds.py"][:30]
 '"""Word cloud generation with '
 ```
 
-Now, if you give a text store (that is, any `Mapping` (e.g. `dict`) of text) to `word_cloud_store`,
-it’ll give you back a store with the same keys…
+Now, if you give a text store (that is, any `Mapping` (e.g. `dict`) of text) to `word_cloud_store`, it’ll give you back a store with the same keys…
 
 ```python
 from guise import word_cloud_store
@@ -102,11 +97,7 @@ guise_clouds["nlp.py"]
 
 Of course, like all good tool, it’s simple to use, but you can bend it in many ways, to do many things.
 
-For example, say you didn’t like the clouds above.
-There are too many code bits, underscored words, code-specific names (e.g. “self”).
-They don’t really represent what’s in the module.
-You’d rather that the word clouds have english words in them.
-Perhaps it’s better to not just use the code, but only the doc strings therein…
+For example, say you didn’t like the clouds above. There are too many code bits, underscored words, code-specific names (e.g. “self”). They don’t really represent what’s in the module. You’d rather that the word clouds have english words in them. Perhaps it’s better to not just use the code, but only the doc strings therein…
 
 ```python
 # Make a function that will extract the docstrings from a Python file
@@ -163,15 +154,9 @@ guise_doc_clouds["nlp.py"]
 
 You probably noticed that a significant amount of visual space is taken by common words.
 
-Words like “the”, “of”, “to” etc. don’t really convey much information.
-Further, maybe the docs still contain some words you’d like to ignore.
-The NLP concept of “stopwords” takes care of this.
+Words like “the”, “of”, “to” etc. don’t really convey much information. Further, maybe the docs still contain some words you’d like to ignore. The NLP concept of “stopwords” takes care of this.
 
-Finally, to really nail the “this word cloud gives us a snap shot of the what the underlying
-text is about, we probably want to weigh the words, yes, according to how frequently they’re used
-in the text, but also lower the weight according to how frequently they’re used in
-normal language, to really highlight what is particular about the text.
-This is just the idea of “stop words” made “smooth” (no black/white decision, but a scale).
+Finally, to really nail the “this word cloud gives us a snap shot of the what the underlying text is about, we probably want to weigh the words, yes, according to how frequently they’re used in the text, but also lower the weight according to how frequently they’re used in normal language, to really highlight what is particular about the text. This is just the idea of “stop words” made “smooth” (no black/white decision, but a scale).
 
 ```python
 from guise import STOPWORDS, TFIDFCalculator
@@ -209,12 +194,9 @@ better_guise_doc_clouds["nlp.py"]
 
 The `word_cloud_store` function uses the `word_cloud` function to do it’s job.
 
-And the word `word_cloud` function just adds some useful parameters to the already excellent
-[wordcloud](https://pypi.org/project/wordcloud/) package ([wordcloud documentation](https://amueller.github.io/word_cloud/)).
+And the word `word_cloud` function just adds some useful parameters to the already excellent [wordcloud](https://pypi.org/project/wordcloud/) package ([wordcloud documentation](https://amueller.github.io/word_cloud/)).
 
-The main raison d’être of `word_cloud` over the already existing tools of the `wordcloud` package is
-that I wanted to make easier to make parametrized text-sources-to-word-clouds pipelines.
-Namely, be able to control better the extraction of text, the corresponding words (a.k.a. “tokenization”) and weighting of these words.
+The main raison d’être of `word_cloud` over the already existing tools of the `wordcloud` package is that I wanted to make easier to make parametrized text-sources-to-word-clouds pipelines. Namely, be able to control better the extraction of text, the corresponding words (a.k.a. “tokenization”) and weighting of these words.
 
 ```python
 from guise import word_cloud
@@ -237,10 +219,7 @@ list_of_words = [
 a_word_cloud_obj = word_cloud(list_of_words)
 ```
 
-`a_word_cloud_obj` is a `WordCloud` object, from which you can do all kinds of things.
-See [word_cloud’s documentation](https://amueller.github.io/word_cloud/) for more information.
-The two main methods we might be interested here are the `to_file(...)` methods and `to_image()` method.
-The later will give you a `PIL.Image` object, which namely, displays in a notebook if it’s the last statement in the cell.
+`a_word_cloud_obj` is a `WordCloud` object, from which you can do all kinds of things. See [word_cloud’s documentation](https://amueller.github.io/word_cloud/) for more information. The two main methods we might be interested here are the `to_file(...)` methods and `to_image()` method. The later will give you a `PIL.Image` object, which namely, displays in a notebook if it’s the last statement in the cell.
 
 ```python
 a_word_cloud_obj.to_image()
@@ -250,8 +229,7 @@ a_word_cloud_obj.to_image()
 
 ## Transforming the output
 
-The `wc_decoder` argument lets you transform the output on the fly.
-So if you wanted to get a `PIL` image object directly, you could do this:
+The `wc_decoder` argument lets you transform the output on the fly. So if you wanted to get a `PIL` image object directly, you could do this:
 
 ```python
 word_cloud(list_of_words, wc_decoder=lambda x: x.to_image())
@@ -261,9 +239,7 @@ word_cloud(list_of_words, wc_decoder=lambda x: x.to_image())
 
 ## Always getting the same output
 
-Notice that the output was different, though the input was the same.
-That’s because there’s some randomness builtin the process.
-Randomness is often a good thing for creative processes, but if you need consistent outputs, you can fix the `random_state`.
+Notice that the output was different, though the input was the same. That’s because there’s some randomness builtin the process. Randomness is often a good thing for creative processes, but if you need consistent outputs, you can fix the `random_state`.
 
 ```python
 word_cloud(list_of_words, wc_decoder=lambda x: x.to_image(), random_state=42)
@@ -293,8 +269,7 @@ word_cloud_image(list_of_words)
 
 ## Specifying word weights explicitly
 
-Note that the words are more prominent, depending on the number of times it is repeated.
-You can control this “word weight” directly if you specify a `{word: weight, ...}` dict input.
+Note that the words are more prominent, depending on the number of times it is repeated. You can control this “word weight” directly if you specify a `{word: weight, ...}` dict input.
 
 ```python
 word_cloud_image({"little": 0.2, "BIG": 20})
@@ -329,9 +304,7 @@ word_cloud_image(quote_1)
 
 ![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_43_0.png)
 
-Note how “not-final” was split into two words, “not” and “final”, and that no punctuation was included.
-`word_cloud` has it’s own default way of breaking the text into words (this is called “tokenization”).
-But you can control this by specifying your own `str_to_words` function.
+Note how “not-final” was split into two words, “not” and “final”, and that no punctuation was included. `word_cloud` has it’s own default way of breaking the text into words (this is called “tokenization”). But you can control this by specifying your own `str_to_words` function.
 
 Say you want to just split over spaces to get your “words” (really “tokens”, because you’ll get punctuation, composed words, etc.):
 
@@ -341,8 +314,7 @@ word_cloud_image(quote_1, str_to_words=lambda x: x.split(" "))
 
 ![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_45_0.png)
 
-If you specify a string as your `str_to_words`, it will be considered as a regular expression that defines what a matching word should be.
-Here we define a word to be any uninterrupted sequence of letters, numbers or underscores (that’s the `\w` part) or dashes.
+If you specify a string as your `str_to_words`, it will be considered as a regular expression that defines what a matching word should be. Here we define a word to be any uninterrupted sequence of letters, numbers or underscores (that’s the `\w` part) or dashes.
 
 ```python
 word_cloud_image(quote_1, str_to_words="[\w-]+")
@@ -352,8 +324,7 @@ word_cloud_image(quote_1, str_to_words="[\w-]+")
 
 ## Control the weighting of the words
 
-Of course, you can always take your text, tokenize it into words, then put those words through a weighting process, then give it to `word_cloud`. But if you want that process to happen automatically when given some text, ou can specify `str_to_words`, as we’ve seen
-above, for the tokenization, and can also specify the word weighting function through the `words_to_weights` argument.
+Of course, you can always take your text, tokenize it into words, then put those words through a weighting process, then give it to `word_cloud`. But if you want that process to happen automatically when given some text, ou can specify `str_to_words`, as we’ve seen above, for the tokenization, and can also specify the word weighting function through the `words_to_weights` argument.
 
 ```python
 james_had = "James, while John had had 'had,' had had 'had had'; 'had had' had had a better effect on the teacher."
@@ -364,16 +335,9 @@ word_cloud_image(james_had, words_to_weights=lambda x: 1 + (len(x) % 2))
 
 ![png](https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_49_0.png)
 
-That `words_to_weights` was a silly one, just for fun.
-Usually, you’ll put a bit more work in to get a word weighting function that is appropriate
-for your narrative.
-The `guise` package offers some tools for making these in the `guise.nlp` module.
+That `words_to_weights` was a silly one, just for fun. Usually, you’ll put a bit more work in to get a word weighting function that is appropriate for your narrative. The `guise` package offers some tools for making these in the `guise.nlp` module.
 
-For example, we have the `TFIDFCalculator`, with which you can weigh words “up” as
-their word count increases (the `TF` part) but also weight them “down” as those words
-are considered more common in the particular context you’re looking at.
-The tool even offers a convenient way to just compare to “general english langauge usage”,
-using statistics over 333K+ words of a large English corpus.
+For example, we have the `TFIDFCalculator`, with which you can weigh words “up” as their word count increases (the `TF` part) but also weight them “down” as those words are considered more common in the particular context you’re looking at. The tool even offers a convenient way to just compare to “general english langauge usage”, using statistics over 333K+ words of a large English corpus.
 
 ```python
 from guise import TFIDFCalculator

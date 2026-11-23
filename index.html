@@ -256,7 +256,9 @@
 <section id="guise">
 <h1>guise<a class="headerlink" href="#guise" title="Link to this heading">¶</a></h1>
 <p>Semantic fingerprinting made easy.</p>
-<p>To install:	<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">guise</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>guise
+</pre></div>
+</div>
 </section>
 <section id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h1>
@@ -271,10 +273,7 @@
 </section>
 <section id="the-word-cloud-store-function">
 <span id="the-word_cloud_store-function"></span><h1>The <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code> function<a class="headerlink" href="#the-word-cloud-store-function" title="Link to this heading">¶</a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code> is a function that creates a word cloud store from a text store.
-(By “store” we mean <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (the fancy way of saying <code class="docutils literal notranslate"><span class="pre">dict</span></code>-like)).
-The text store is a mapping from keys to text strings.
-The word cloud store is a mapping from keys to word clouds.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code> is a function that creates a word cloud store from a text store. (By “store” we mean <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (the fancy way of saying <code class="docutils literal notranslate"><span class="pre">dict</span></code>-like)). The text store is a mapping from keys to text strings. The word cloud store is a mapping from keys to word clouds.</p>
 <p>Let’s have some fun with that…</p>
 <section id="clouding-the-files-of-guise">
 <h2>Clouding the files of <code class="docutils literal notranslate"><span class="pre">guise</span></code><a class="headerlink" href="#clouding-the-files-of-guise" title="Link to this heading">¶</a></h2>
@@ -300,18 +299,14 @@ The word cloud store is a mapping from keys to word clouds.</p>
  'examples/energy_startups/__init__.py']
 </pre></div>
 </div>
-<p>See that <code class="docutils literal notranslate"><span class="pre">guise_files</span></code> is a <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (that means “dict-like”) of text.
-We often call that a (text) “store”.
-The keys are the file names (as seen above with <code class="docutils literal notranslate"><span class="pre">list(guise_files)</span></code>) and the values are
-the contents of the file. See the first 30 characters of <code class="docutils literal notranslate"><span class="pre">'word_clouds.py'</span></code>.</p>
+<p>See that <code class="docutils literal notranslate"><span class="pre">guise_files</span></code> is a <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (that means “dict-like”) of text. We often call that a (text) “store”. The keys are the file names (as seen above with <code class="docutils literal notranslate"><span class="pre">list(guise_files)</span></code>) and the values are the contents of the file. See the first 30 characters of <code class="docutils literal notranslate"><span class="pre">'word_clouds.py'</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">guise_files</span><span class="p">[</span><span class="s2">"word_clouds.py"</span><span class="p">][:</span><span class="mi">30</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>'"""Word cloud generation with '
 </pre></div>
 </div>
-<p>Now, if you give a text store (that is, any <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">dict</span></code>) of text) to <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code>,
-it’ll give you back a store with the same keys…</p>
+<p>Now, if you give a text store (that is, any <code class="docutils literal notranslate"><span class="pre">Mapping</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">dict</span></code>) of text) to <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code>, it’ll give you back a store with the same keys…</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">word_cloud_store</span>
 
 <span class="n">guise_clouds</span> <span class="o">=</span> <span class="n">word_cloud_store</span><span class="p">(</span><span class="n">guise_files</span><span class="p">)</span>
@@ -340,11 +335,7 @@ it’ll give you back a store with the same keys…</p>
 <section id="controlling-the-words-that-get-into-the-clouds">
 <h2>Controlling the words that get into the clouds<a class="headerlink" href="#controlling-the-words-that-get-into-the-clouds" title="Link to this heading">¶</a></h2>
 <p>Of course, like all good tool, it’s simple to use, but you can bend it in many ways, to do many things.</p>
-<p>For example, say you didn’t like the clouds above.
-There are too many code bits, underscored words, code-specific names (e.g. “self”).
-They don’t really represent what’s in the module.
-You’d rather that the word clouds have english words in them.
-Perhaps it’s better to not just use the code, but only the doc strings therein…</p>
+<p>For example, say you didn’t like the clouds above. There are too many code bits, underscored words, code-specific names (e.g. “self”). They don’t really represent what’s in the module. You’d rather that the word clouds have english words in them. Perhaps it’s better to not just use the code, but only the doc strings therein…</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make a function that will extract the docstrings from a Python file</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">just_the_docs</span><span class="p">(</span><span class="n">python_code</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Extract the docstrings from a Python file.</span>
@@ -394,14 +385,8 @@ Perhaps it’s better to not just use the code, but only the doc strings therein
 <section id="controlling-the-weight-of-the-words-in-the-cloud">
 <h2>Controlling the weight of the words in the cloud<a class="headerlink" href="#controlling-the-weight-of-the-words-in-the-cloud" title="Link to this heading">¶</a></h2>
 <p>You probably noticed that a significant amount of visual space is taken by common words.</p>
-<p>Words like “the”, “of”, “to” etc. don’t really convey much information.
-Further, maybe the docs still contain some words you’d like to ignore.
-The NLP concept of “stopwords” takes care of this.</p>
-<p>Finally, to really nail the “this word cloud gives us a snap shot of the what the underlying
-text is about, we probably want to weigh the words, yes, according to how frequently they’re used
-in the text, but also lower the weight according to how frequently they’re used in
-normal language, to really highlight what is particular about the text.
-This is just the idea of “stop words” made “smooth” (no black/white decision, but a scale).</p>
+<p>Words like “the”, “of”, “to” etc. don’t really convey much information. Further, maybe the docs still contain some words you’d like to ignore. The NLP concept of “stopwords” takes care of this.</p>
+<p>Finally, to really nail the “this word cloud gives us a snap shot of the what the underlying text is about, we probably want to weigh the words, yes, according to how frequently they’re used in the text, but also lower the weight according to how frequently they’re used in normal language, to really highlight what is particular about the text. This is just the idea of “stop words” made “smooth” (no black/white decision, but a scale).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">STOPWORDS</span><span class="p">,</span> <span class="n">TFIDFCalculator</span>
 
 <span class="c1"># Make a list of stopwords (words to ignore) that includes the default ones plus a few more</span>
@@ -434,11 +419,8 @@ This is just the idea of “stop words” made “smooth” (no black/white deci
 <section id="the-word-cloud-function">
 <span id="the-word_cloud-function"></span><h1>The <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> function<a class="headerlink" href="#the-word-cloud-function" title="Link to this heading">¶</a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">word_cloud_store</span></code> function uses the <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> function to do it’s job.</p>
-<p>And the word <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> function just adds some useful parameters to the already excellent
-<a class="reference external" href="https://pypi.org/project/wordcloud/">wordcloud</a> package (<a class="reference external" href="https://amueller.github.io/word_cloud/">wordcloud documentation</a>).</p>
-<p>The main raison d’être of <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> over the already existing tools of the <code class="docutils literal notranslate"><span class="pre">wordcloud</span></code> package is
-that I wanted to make easier to make parametrized text-sources-to-word-clouds pipelines.
-Namely, be able to control better the extraction of text, the corresponding words (a.k.a. “tokenization”) and weighting of these words.</p>
+<p>And the word <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> function just adds some useful parameters to the already excellent <a class="reference external" href="https://pypi.org/project/wordcloud/">wordcloud</a> package (<a class="reference external" href="https://amueller.github.io/word_cloud/">wordcloud documentation</a>).</p>
+<p>The main raison d’être of <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> over the already existing tools of the <code class="docutils literal notranslate"><span class="pre">wordcloud</span></code> package is that I wanted to make easier to make parametrized text-sources-to-word-clouds pipelines. Namely, be able to control better the extraction of text, the corresponding words (a.k.a. “tokenization”) and weighting of these words.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">word_cloud</span>
 </pre></div>
 </div>
@@ -458,18 +440,14 @@ Namely, be able to control better the extraction of text, the corresponding word
 <span class="n">a_word_cloud_obj</span> <span class="o">=</span> <span class="n">word_cloud</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">a_word_cloud_obj</span></code> is a <code class="docutils literal notranslate"><span class="pre">WordCloud</span></code> object, from which you can do all kinds of things.
-See <a class="reference external" href="https://amueller.github.io/word_cloud/">word_cloud’s documentation</a> for more information.
-The two main methods we might be interested here are the <code class="docutils literal notranslate"><span class="pre">to_file(...)</span></code> methods and <code class="docutils literal notranslate"><span class="pre">to_image()</span></code> method.
-The later will give you a <code class="docutils literal notranslate"><span class="pre">PIL.Image</span></code> object, which namely, displays in a notebook if it’s the last statement in the cell.</p>
+<p><code class="docutils literal notranslate"><span class="pre">a_word_cloud_obj</span></code> is a <code class="docutils literal notranslate"><span class="pre">WordCloud</span></code> object, from which you can do all kinds of things. See <a class="reference external" href="https://amueller.github.io/word_cloud/">word_cloud’s documentation</a> for more information. The two main methods we might be interested here are the <code class="docutils literal notranslate"><span class="pre">to_file(...)</span></code> methods and <code class="docutils literal notranslate"><span class="pre">to_image()</span></code> method. The later will give you a <code class="docutils literal notranslate"><span class="pre">PIL.Image</span></code> object, which namely, displays in a notebook if it’s the last statement in the cell.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a_word_cloud_obj</span><span class="o">.</span><span class="n">to_image</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_27_0.png" /></p>
 <section id="transforming-the-output">
 <h2>Transforming the output<a class="headerlink" href="#transforming-the-output" title="Link to this heading">¶</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">wc_decoder</span></code> argument lets you transform the output on the fly.
-So if you wanted to get a <code class="docutils literal notranslate"><span class="pre">PIL</span></code> image object directly, you could do this:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">wc_decoder</span></code> argument lets you transform the output on the fly. So if you wanted to get a <code class="docutils literal notranslate"><span class="pre">PIL</span></code> image object directly, you could do this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">,</span> <span class="n">wc_decoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_image</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -477,9 +455,7 @@ So if you wanted to get a <code class="docutils literal notranslate"><span class
 </section>
 <section id="always-getting-the-same-output">
 <h2>Always getting the same output<a class="headerlink" href="#always-getting-the-same-output" title="Link to this heading">¶</a></h2>
-<p>Notice that the output was different, though the input was the same.
-That’s because there’s some randomness builtin the process.
-Randomness is often a good thing for creative processes, but if you need consistent outputs, you can fix the <code class="docutils literal notranslate"><span class="pre">random_state</span></code>.</p>
+<p>Notice that the output was different, though the input was the same. That’s because there’s some randomness builtin the process. Randomness is often a good thing for creative processes, but if you need consistent outputs, you can fix the <code class="docutils literal notranslate"><span class="pre">random_state</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud</span><span class="p">(</span><span class="n">list_of_words</span><span class="p">,</span> <span class="n">wc_decoder</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_image</span><span class="p">(),</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -502,8 +478,7 @@ Randomness is often a good thing for creative processes, but if you need consist
 </section>
 <section id="specifying-word-weights-explicitly">
 <h2>Specifying word weights explicitly<a class="headerlink" href="#specifying-word-weights-explicitly" title="Link to this heading">¶</a></h2>
-<p>Note that the words are more prominent, depending on the number of times it is repeated.
-You can control this “word weight” directly if you specify a <code class="docutils literal notranslate"><span class="pre">{word:</span> <span class="pre">weight,</span> <span class="pre">...}</span></code> dict input.</p>
+<p>Note that the words are more prominent, depending on the number of times it is repeated. You can control this “word weight” directly if you specify a <code class="docutils literal notranslate"><span class="pre">{word:</span> <span class="pre">weight,</span> <span class="pre">...}</span></code> dict input.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span><span class="p">({</span><span class="s2">"little"</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s2">"BIG"</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
 </pre></div>
 </div>
@@ -530,16 +505,13 @@ You can control this “word weight” directly if you specify a <code class="do
 </pre></div>
 </div>
 <p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_43_0.png" /></p>
-<p>Note how “not-final” was split into two words, “not” and “final”, and that no punctuation was included.
-<code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> has it’s own default way of breaking the text into words (this is called “tokenization”).
-But you can control this by specifying your own <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code> function.</p>
+<p>Note how “not-final” was split into two words, “not” and “final”, and that no punctuation was included. <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code> has it’s own default way of breaking the text into words (this is called “tokenization”). But you can control this by specifying your own <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code> function.</p>
 <p>Say you want to just split over spaces to get your “words” (really “tokens”, because you’ll get punctuation, composed words, etc.):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span><span class="p">(</span><span class="n">quote_1</span><span class="p">,</span> <span class="n">str_to_words</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">))</span>
 </pre></div>
 </div>
 <p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_45_0.png" /></p>
-<p>If you specify a string as your <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code>, it will be considered as a regular expression that defines what a matching word should be.
-Here we define a word to be any uninterrupted sequence of letters, numbers or underscores (that’s the <code class="docutils literal notranslate"><span class="pre">\w</span></code> part) or dashes.</p>
+<p>If you specify a string as your <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code>, it will be considered as a regular expression that defines what a matching word should be. Here we define a word to be any uninterrupted sequence of letters, numbers or underscores (that’s the <code class="docutils literal notranslate"><span class="pre">\w</span></code> part) or dashes.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">word_cloud_image</span><span class="p">(</span><span class="n">quote_1</span><span class="p">,</span> <span class="n">str_to_words</span><span class="o">=</span><span class="s2">"[\w-]+"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -547,8 +519,7 @@ Here we define a word to be any uninterrupted sequence of letters, numbers or un
 </section>
 <section id="control-the-weighting-of-the-words">
 <h2>Control the weighting of the words<a class="headerlink" href="#control-the-weighting-of-the-words" title="Link to this heading">¶</a></h2>
-<p>Of course, you can always take your text, tokenize it into words, then put those words through a weighting process, then give it to <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code>. But if you want that process to happen automatically when given some text, ou can specify <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code>, as we’ve seen
-above, for the tokenization, and can also specify the word weighting function through the <code class="docutils literal notranslate"><span class="pre">words_to_weights</span></code> argument.</p>
+<p>Of course, you can always take your text, tokenize it into words, then put those words through a weighting process, then give it to <code class="docutils literal notranslate"><span class="pre">word_cloud</span></code>. But if you want that process to happen automatically when given some text, ou can specify <code class="docutils literal notranslate"><span class="pre">str_to_words</span></code>, as we’ve seen above, for the tokenization, and can also specify the word weighting function through the <code class="docutils literal notranslate"><span class="pre">words_to_weights</span></code> argument.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">james_had</span> <span class="o">=</span> <span class="s2">"James, while John had had 'had,' had had 'had had'; 'had had' had had a better effect on the teacher."</span>
 
 <span class="c1"># Let's weight the words by the parity of their length:</span>
@@ -556,15 +527,8 @@ above, for the tokenization, and can also specify the word weighting function th
 </pre></div>
 </div>
 <p><img alt="png" src="https://raw.githubusercontent.com/thorwhalen/guise/refs/heads/master/misc/markdowns/images/output_49_0.png" /></p>
-<p>That <code class="docutils literal notranslate"><span class="pre">words_to_weights</span></code> was a silly one, just for fun.
-Usually, you’ll put a bit more work in to get a word weighting function that is appropriate
-for your narrative.
-The <code class="docutils literal notranslate"><span class="pre">guise</span></code> package offers some tools for making these in the <code class="docutils literal notranslate"><span class="pre">guise.nlp</span></code> module.</p>
-<p>For example, we have the <code class="docutils literal notranslate"><span class="pre">TFIDFCalculator</span></code>, with which you can weigh words “up” as
-their word count increases (the <code class="docutils literal notranslate"><span class="pre">TF</span></code> part) but also weight them “down” as those words
-are considered more common in the particular context you’re looking at.
-The tool even offers a convenient way to just compare to “general english langauge usage”,
-using statistics over 333K+ words of a large English corpus.</p>
+<p>That <code class="docutils literal notranslate"><span class="pre">words_to_weights</span></code> was a silly one, just for fun. Usually, you’ll put a bit more work in to get a word weighting function that is appropriate for your narrative. The <code class="docutils literal notranslate"><span class="pre">guise</span></code> package offers some tools for making these in the <code class="docutils literal notranslate"><span class="pre">guise.nlp</span></code> module.</p>
+<p>For example, we have the <code class="docutils literal notranslate"><span class="pre">TFIDFCalculator</span></code>, with which you can weigh words “up” as their word count increases (the <code class="docutils literal notranslate"><span class="pre">TF</span></code> part) but also weight them “down” as those words are considered more common in the particular context you’re looking at. The tool even offers a convenient way to just compare to “general english langauge usage”, using statistics over 333K+ words of a large English corpus.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">guise</span><span class="w"> </span><span class="kn">import</span> <span class="n">TFIDFCalculator</span>
 
 <span class="n">words_to_weights</span> <span class="o">=</span> <span class="n">TFIDFCalculator</span><span class="p">(</span><span class="s2">"english"</span><span class="p">)</span>
@@ -578,7 +542,7 @@ using statistics over 333K+ words of a large English corpus.</p>
 </section>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-21 17:53 UTC from <a href="https://github.com/thorwhalen/guise/commit/da9ea422946536a6649831671094a68d6cc723bb">da9ea42</a> (master) · guise 0.0.12 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-23 07:45 UTC from <a href="https://github.com/thorwhalen/guise/commit/fbc8f1411431ac6fe64294a710f43ee7fd932c7e">fbc8f14</a> (master) · guise 0.0.13 · <a href="about-this-build.html">about this build</a></p>
         </article>
       </div>
       <footer>
@@ -614,7 +578,7 @@ using statistics over 333K+ words of a large English corpus.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=c249dd19"></script>
+</div><script src="_static/documentation_options.js?v=6b09a97f"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
